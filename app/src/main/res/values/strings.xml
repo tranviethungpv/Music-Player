@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Music Player</string>
+    <string name="play_all">Play all</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_all_songs">All Songs</string>
+    <string name="todo">TODO</string>
+    <string name="exit">Exit</string>
 </resources>
