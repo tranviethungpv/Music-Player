@@ -13,7 +13,8 @@
         android:layout_width="@dimen/define_dimen_40"
         android:layout_height="@dimen/define_dimen_40"
         android:layout_centerVertical="true"
-        android:src="@drawable/image_no_available" />
+        android:src="@drawable/image_no_available"
+        tools:ignore="ImageContrastCheck" />
 
     <LinearLayout
         android:id="@+id/layout_text"
@@ -24,7 +25,11 @@
         android:layout_marginEnd="@dimen/define_dimen_5"
         android:layout_toEndOf="@+id/img_song"
         android:layout_toStartOf="@+id/layout_button"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/define_dimen_10"
+        android:layout_marginRight="@dimen/define_dimen_5"
+        android:layout_toRightOf="@+id/img_song"
+        android:layout_toLeftOf="@+id/layout_button">
 
         <TextView
             android:id="@+id/tv_song_name"
@@ -49,7 +54,8 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_alignParentRight="true">
 
         <ImageView
             android:id="@+id/img_previous"
@@ -57,7 +63,8 @@
             android:layout_height="@dimen/define_dimen_24"
             android:backgroundTint="@color/colorPrimaryDark"
             android:src="@drawable/ic_previous_black"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"
+            tools:targetApi="lollipop" />
 
         <ImageView
             android:id="@+id/img_play"
@@ -74,7 +81,8 @@
             android:layout_height="@dimen/define_dimen_24"
             android:layout_marginEnd="@dimen/define_dimen_14"
             android:src="@drawable/ic_next_black"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"
+            android:layout_marginRight="@dimen/define_dimen_14" />
 
         <ImageView
             android:id="@+id/img_close"
