@@ -1,5 +1,6 @@
 package com.example.musicplayer.view.fragment
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musicplayer.R
+import com.example.musicplayer.model.Song
 import com.example.musicplayer.view.adapter.ListSongAdapter
 import com.example.musicplayer.viewmodel.SongViewModel
 

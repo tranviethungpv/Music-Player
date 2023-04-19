@@ -12,4 +12,5 @@
     <string name="texttitle">Title</string>
     <string name="imageThumbnail">Thumbnail</string>
     <string name="textartist">Artist</string>
+    <string name="label_start_time">00:00</string>
 </resources>

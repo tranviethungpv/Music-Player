@@ -9,7 +9,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class SongService {
+class SongRemote {
     private val databaseRef = FirebaseDatabase.getInstance().getReference("/songs")
     fun getAllSong(): MutableLiveData<ArrayList<Song>> {
         val songLiveData = MutableLiveData<ArrayList<Song>>()
