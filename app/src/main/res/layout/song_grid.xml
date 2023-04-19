@@ -7,7 +7,8 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/define_dimen_10"
     android:layout_marginEnd="@dimen/define_dimen_10"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginRight="@dimen/define_dimen_10">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -15,11 +16,11 @@
         app:cardCornerRadius="@dimen/define_dimen_6">
 
         <ImageView
-            android:id="@+id/img_song"
+            android:id="@+id/imageThumbnail"
             android:layout_width="match_parent"
             android:layout_height="@dimen/define_dimen_120"
             android:scaleType="centerCrop"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription,ImageContrastCheck" />
     </androidx.cardview.widget.CardView>
 
     <LinearLayout
@@ -28,11 +29,12 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_song_name"
+            android:id="@+id/texttitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_small"
+            android:text="@string/texttitle" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -40,22 +42,14 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/textartist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/textartist"
                 android:textSize="@dimen/text_size_xsmall"
                 android:textStyle="italic" />
 
-            <TextView
-                android:id="@+id/tv_artist"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/define_dimen_5"
-                android:textSize="@dimen/text_size_xsmall"
-                android:textStyle="italic"
-                android:layout_marginLeft="@dimen/define_dimen_5" />
         </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
-

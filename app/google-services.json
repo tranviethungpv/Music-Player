@@ -37,6 +37,35 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:748279175328:android:96625eb1d3d399016451c5",
+        "android_client_info": {
+          "package_name": "com.example.musicplayer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "748279175328-h2qkpdjhflra9vta1ip3j5qjkqo3aqgf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByWnwlavk-sBYjJSvxt7M69hPZ3j2Z6Ks"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "748279175328-h2qkpdjhflra9vta1ip3j5qjkqo3aqgf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:748279175328:android:e56f867873f1fb836451c5",
         "android_client_info": {
           "package_name": "com.example.mymusiccc"
