@@ -39,17 +39,7 @@ class PlaySongFragment : Fragment() {
         songViewModel = ViewModelProvider(this)[SongViewModel::class.java]
         songViewModel.allSongs.observe(viewLifecycleOwner, Observer {
             if (it.isNotEmpty()) {
-                songList = it
-                val title = songList[4].title.toString()
-                val artist = songList[4].artist.toString()
-                val image = songList[4].image.toString()
-                binding.tvSongName.text = title
-                binding.tvArtist.text = artist
-                Glide.with(context).load(image).into(binding.imgSong)
-                val mediaPlayer = MediaPlayer()
-                mediaPlayer.setDataSource(songList[4].url.toString())
-                mediaPlayer.prepare()
-                mediaPlayer.start()
+
             }
         })
     }

@@ -7,10 +7,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.musicplayer.listener.ISongClickListener
 import com.example.musicplayer.R
+import com.example.musicplayer.databinding.ItemSongGridBinding
 import com.example.musicplayer.model.Song
 
-class ListSongAdapter(private var listSong: ArrayList<Song>) :
+class ListSongAdapter(private var listSong: ArrayList<Song>, private val songClickListener: ISongClickListener) :
     RecyclerView.Adapter<ListSongAdapter.SongViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder {
@@ -27,11 +29,14 @@ class ListSongAdapter(private var listSong: ArrayList<Song>) :
         holder.title.text = currentItem.title
         holder.artist.text = currentItem.artist
         Glide.with(holder.itemView.context).load(currentItem.image).into(holder.image)
+        holder.itemView.setOnClickListener { songClickListener.onSongClick(currentItem) }
     }
 
     class SongViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val title: TextView = itemView.findViewById(R.id.texttitle)
-        val artist: TextView = itemView.findViewById(R.id.textartist)
-        val image: ImageView = itemView.findViewById(R.id.imageThumbnail)
+        private val itemSongGridBinding: ItemSongGridBinding = ItemSongGridBinding.bind(itemView)
+
+        val title: TextView = itemSongGridBinding.texttitle
+        val artist: TextView = itemSongGridBinding.textartist
+        val image: ImageView = itemSongGridBinding.imageThumbnail
     }
 }
