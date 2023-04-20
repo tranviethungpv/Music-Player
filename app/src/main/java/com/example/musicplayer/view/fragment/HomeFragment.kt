@@ -11,9 +11,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.musicplayer.listener.ISongClickListener
+import com.example.musicplayer.Constant
 import com.example.musicplayer.databinding.FragmentHomeBinding
+import com.example.musicplayer.listener.ISongClickListener
 import com.example.musicplayer.model.Song
+import com.example.musicplayer.service.MusicService
 import com.example.musicplayer.view.activity.PlayMusicActivity
 import com.example.musicplayer.view.adapter.ListSongAdapter
 import com.example.musicplayer.viewmodel.SongViewModel
@@ -40,18 +42,27 @@ class HomeFragment : Fragment() {
         val dividerDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         recyclerViewListSong.addItemDecoration(dividerDecoration)
         songViewModel = ViewModelProvider(this)[SongViewModel::class.java]
-        songViewModel.allSongs.observe(viewLifecycleOwner, Observer {
+        songViewModel.allSongs.observe(viewLifecycleOwner) {
             songAdapter = ListSongAdapter(it, object : ISongClickListener {
                 override fun onSongClick(song: Song) {
                     playSong(song)
                 }
             })
             recyclerViewListSong.adapter = songAdapter
-        })
+        }
     }
 
     private fun playSong(song: Song) {
-        val intent = Intent(context, PlayMusicActivity::class.java)
-        startActivity(intent)
+        MusicService.listSongPlaying.clear()
+        MusicService.listSongPlaying.add(song)
+
+        val musicService = Intent(requireContext(), MusicService::class.java)
+        musicService.putExtra(Constant.MUSIC_ACTION, Constant.PLAY)
+        musicService.putExtra(Constant.SONG_POSITION, 0)
+        requireContext().startService(musicService)
+
+        val intent = Intent(requireContext(), PlayMusicActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        requireContext().startActivity(intent)
     }
 }

@@ -11,17 +11,10 @@ import kotlin.properties.Delegates
 
 class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener {
     companion object {
-        @JvmStatic
         var mediaPlayer: MediaPlayer? = null
-        @JvmStatic
         var songAction by Delegates.notNull<Int>()
-        @JvmStatic
         var songPosition by Delegates.notNull<Int>()
-        @JvmStatic
         var listSongPlaying: ArrayList<Song> = ArrayList()
-        @JvmStatic
-        var isPlaying: Boolean? = null
-        @JvmStatic
         var lengthSong by Delegates.notNull<Int>()
     }
 
@@ -55,8 +48,7 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
 
     override fun onPrepared(mp: MediaPlayer?) {
         lengthSong = mediaPlayer?.duration ?: 0
-        mp!!.start()
-        isPlaying = true
+        mp?.start()
         songAction = Constant.PLAY
         sendMusicNotification()
         sendBroadcastChangeListener()
@@ -100,9 +92,8 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
         }
     }
     private fun pauseSong(){
-        if (mediaPlayer != null && mediaPlayer!!.isPlaying) {
+        if (mediaPlayer != null && mediaPlayer?.isPlaying == true) {
             mediaPlayer!!.pause()
-            isPlaying = false
             sendMusicNotification()
             sendBroadcastChangeListener()
         }
@@ -110,7 +101,6 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
     private fun resumeSong(){
         if (mediaPlayer != null) {
             mediaPlayer!!.start()
-            isPlaying = true
             sendMusicNotification()
             sendBroadcastChangeListener()
         }
