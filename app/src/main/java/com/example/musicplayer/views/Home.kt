@@ -30,7 +30,7 @@ class Home : Fragment() {
     private lateinit var imgSearch:ImageView
     private lateinit var hint:TextView
     private lateinit var layoutSearch:RecyclerView
-    lateinit var  viewFlipper : ViewFlipper
+    private lateinit  var viewFlipper :ViewFlipper
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,17 +53,18 @@ class Home : Fragment() {
         recyclerViewListSong.setOnClickListener {
 
         }
+        viewFlipper = view.findViewById(R.id.viewflipper)
         ActionViewFlipper()
        // SearchByHint()
         return view
     }
 
     private fun ActionViewFlipper() {
-        val viewFlipper = getView()?.findViewById<ViewFlipper>(R.id.viewflipper)
+       //var viewFlipper = getView()?.findViewById<ViewFlipper>(R.id.viewflipper)
         val imageList = mutableListOf(
-            R.drawable.ic_skype,
-            R.drawable.ic_facebook,
-            R.drawable.ic_gmail
+            R.drawable.banner01,
+            R.drawable.banner02,
+            R.drawable.banner03
         )
 
         // Thêm các ảnh vào ViewFlipper
