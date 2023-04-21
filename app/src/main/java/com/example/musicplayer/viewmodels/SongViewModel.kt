@@ -10,5 +10,5 @@ class SongViewModel(application: Application): AndroidViewModel(application) {
     private val songRepository = SongRepository()
     private lateinit var hint :String
     val allSongs: MutableLiveData<ArrayList<Song>> = songRepository.getAllSong()
-    val songSearch:MutableLiveData<ArrayList<Song>> = songRepository.gatSongByHint(hint)
+    val songSearch:MutableLiveData<ArrayList<Song>> = songRepository.getSongByHint(hint)
 }
