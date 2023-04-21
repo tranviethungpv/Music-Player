@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.musicplayer.activity.adapter.SongSearchadapter
 import com.example.musicplayer.model.Song
+import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -31,9 +32,28 @@ class SongService {
         })
         return songLiveData
     }
-    fun getlistSongserch(hint:String):MutableLiveData<ArrayList<Song>>
+    fun getlistSongsearch(hint:String):MutableLiveData<ArrayList<Song>>
     {
         val songLiveData = MutableLiveData<ArrayList<Song>>()
+        databaseRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val songs: MutableList<Song> = mutableListOf()
+
+                for (songSnapshot in snapshot.children) {
+
+                    val song = songSnapshot.getValue(Song::class.java)
+                    if(song?.title?.contains(hint)!!)
+                    {
+                        song?.let { songs.add(it) }
+                    }
+                }
+                songLiveData.value = ArrayList(songs)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e(TAG, "Error getting songs from database", error.toException())
+            }
+        })
         return songLiveData
     }
 }
