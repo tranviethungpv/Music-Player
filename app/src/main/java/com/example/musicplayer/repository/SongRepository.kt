@@ -9,4 +9,10 @@ class SongRepository {
     fun getAllSong(): MutableLiveData<ArrayList<Song>> {
         return songService.getAllSong()
     }
+    fun gatSongByHint(hint:String):MutableLiveData<ArrayList<Song>>
+    {
+        return songService.getAllSong();
+    }
+
+
 }

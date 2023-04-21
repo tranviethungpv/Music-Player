@@ -8,7 +8,9 @@ plugins {
 android {
     namespace 'com.example.musicplayer'
     compileSdk 33
-
+    dataBinding {
+        enabled = true
+    }
     defaultConfig {
         applicationId "com.example.musicplayer"
         minSdk 16
@@ -50,6 +52,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.15.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'com.google.firebase:firebase-database:20.2.0'
+
 
 }
 

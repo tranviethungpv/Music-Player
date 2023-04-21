@@ -3,6 +3,7 @@ package com.example.musicplayer.remote
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.example.musicplayer.activity.adapter.SongSearchadapter
 import com.example.musicplayer.model.Song
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -28,6 +29,11 @@ class SongService {
                 Log.e(TAG, "Error getting songs from database", error.toException())
             }
         })
+        return songLiveData
+    }
+    fun getlistSongserch(hint:String):MutableLiveData<ArrayList<Song>>
+    {
+        val songLiveData = MutableLiveData<ArrayList<Song>>()
         return songLiveData
     }
 }

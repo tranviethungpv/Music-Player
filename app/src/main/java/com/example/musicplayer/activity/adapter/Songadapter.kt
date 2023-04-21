@@ -1,4 +1,4 @@
-package com.example.musicplayer.activity
+package com.example.musicplayer.activity.adapter
 
 
 import com.example.musicplayer.R
@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.musicplayer.model.Song
 
 class Songadapter(private var listSong: ArrayList<Song>) :
-    RecyclerView.Adapter<Songadapter.SongViewHolder>() {
+    RecyclerView.Adapter<SongSearchadapter.SongViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.song_grid, parent, false)
