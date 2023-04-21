@@ -30,7 +30,7 @@ class Home : Fragment() {
     private lateinit var imgSearch:ImageView
     private lateinit var hint:TextView
     private lateinit var layoutSearch:RecyclerView
-    //var  viewFlipper = findViewById<ViewFlipper>(R.id.viewFlipper)
+    lateinit var  viewFlipper : ViewFlipper
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
