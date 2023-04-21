@@ -15,11 +15,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBindings
 import com.example.musicplayer.R
 import com.example.musicplayer.activity.adapter.SongSearchadapter
+import com.example.musicplayer.activity.adapter.Songadapter
 import com.example.musicplayer.viewmodels.SongViewModel
 
 
 class Home : Fragment() {
-    private lateinit var songAdapter: SongSearchadapter
+    private lateinit var songAdapter: Songadapter
     private lateinit var recyclerViewListSong: RecyclerView
     private lateinit var songViewModel: SongViewModel
     private lateinit var songListSeach: SongSearchadapter
@@ -37,21 +38,43 @@ class Home : Fragment() {
         recyclerViewListSong.layoutManager = GridLayoutManager(activity, 2)
         val dividerDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         recyclerViewListSong.addItemDecoration(dividerDecoration)
-
         songViewModel = ViewModelProvider(this)[SongViewModel::class.java]
         songViewModel.allSongs.observe(viewLifecycleOwner, Observer {
             if (it.isNotEmpty()) {
                 val songList = it
-                songAdapter = SongSearchadapter(songList)
+                songAdapter = Songadapter(songList)
                 recyclerViewListSong.adapter = songAdapter
             }
         })
 
         recyclerViewListSong.setOnClickListener {
-            
+
         }
+       // SearchByHint()
         return view
     }
 
-
+//    private fun SearchByHint() {
+//        imgSearch.setOnClickListener(View.OnClickListener() {
+//            @Override
+//             fun onClick(v:View){
+//                recyclerViewListSong = v.findViewById(R.id.layout_search)
+//                recyclerViewListSong.layoutManager = GridLayoutManager(activity, 1)
+//                val dividerDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+//                recyclerViewListSong.addItemDecoration(dividerDecoration)
+//
+//                songViewModel = ViewModelProvider(this)[SongViewModel::class.java]
+//                songViewModel.songSearch.observe(viewLifecycleOwner, Observer {
+//                    if (it.isNotEmpty()) {
+//                        val songList = it
+//                        songListSeach = SongSearchadapter(songList)
+//                        recyclerViewListSong.adapter = songListSeach
+//                    }
+//                })
+//
+//            }
+//        });
+//
+//
+//    }
 }

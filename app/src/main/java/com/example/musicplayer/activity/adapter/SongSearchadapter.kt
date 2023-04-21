@@ -30,8 +30,8 @@ class SongSearchadapter(private var listSong: ArrayList<Song>) :
     }
 
     class SongViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val title: TextView = itemView.findViewById(R.id.texttitle)
-        val artist: TextView = itemView.findViewById(R.id.textartist)
-        val image: ImageView = itemView.findViewById(R.id.imageThumbnail)
+        val title: TextView = itemView.findViewById(R.id.tv_song_name)
+        val artist: TextView = itemView.findViewById(R.id.tv_artist)
+        val image: ImageView = itemView.findViewById(R.id.img_song)
     }
 }

@@ -12,13 +12,14 @@ import com.bumptech.glide.Glide
 
 import com.example.musicplayer.model.Song
 
-class Songadapter(private var listSong: ArrayList<Song>) :
-    RecyclerView.Adapter<SongSearchadapter.SongViewHolder>() {
+class Songadapter(private var listSong: ArrayList<Song>) : RecyclerView.Adapter<Songadapter.SongViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.song_grid, parent, false)
         return SongViewHolder(itemView)
     }
+
+
 
     override fun getItemCount(): Int {
         return listSong.size
