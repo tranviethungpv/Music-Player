@@ -55,10 +55,27 @@
             android:layout_marginRight="@dimen/define_dimen_5" />
     </RelativeLayout>
 
+    <ViewFlipper
+        android:id="@+id/viewflipper"
+        android:layout_width="match_parent"
+        android:layout_height="211dp"
+        android:layout_marginTop="@dimen/define_dimen_20" >
+
+    </ViewFlipper>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="@string/songs"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/text_size_normal"
+        android:textStyle="bold"
+        tools:ignore="RelativeOverlap" />
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/define_dimen_20">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -83,13 +100,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
-                    <!--                    <me.relex.circleindicator.CircleIndicator3-->
-                    <!--                        android:id="@+id/indicator_3"-->
-                    <!--                        android:layout_width="wrap_content"-->
-                    <!--                        android:layout_height="@dimen/define_dimen_30"-->
-                    <!--                        android:layout_gravity="center"-->
-                    <!--                        app:ci_drawable="@drawable/bg_indicatior_selected"-->
-                    <!--                        app:ci_drawable_unselected="@drawable/bg_indicatior_unselected" />-->
+
                 </LinearLayout>
 
                 <RelativeLayout
@@ -100,15 +111,6 @@
                     android:layout_marginBottom="@dimen/define_dimen_5"
                     android:layout_marginTop="@dimen/define_dimen_5">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="@string/songs"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textSize="@dimen/text_size_normal"
-                        android:textStyle="bold"
-                        tools:ignore="RelativeOverlap" />
 
                     <LinearLayout
                         android:id="@+id/layout_view_all_popular"
@@ -130,10 +132,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/define_dimen_10"
+                    android:layout_marginLeft="@dimen/define_dimen_10"
                     android:layout_marginBottom="@dimen/define_dimen_10"
                     android:focusable="false"
                     android:nestedScrollingEnabled="false"
-                    android:layout_marginLeft="@dimen/define_dimen_10"
                     tools:targetApi="lollipop" />
 
             </LinearLayout>
