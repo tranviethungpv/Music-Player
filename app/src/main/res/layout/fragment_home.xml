@@ -68,9 +68,13 @@
         android:layout_centerVertical="true"
         android:text="@string/songs"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="@dimen/text_size_normal"
-        android:textStyle="bold"
-        tools:ignore="RelativeOverlap" />
+        android:textSize="24dp"
+
+        android:layout_marginTop="@dimen/define_dimen_10"
+        android:layout_marginStart="@dimen/define_dimen_10"
+
+        tools:ignore="RelativeOverlap"
+        android:layout_marginLeft="@dimen/define_dimen_10" />
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -95,10 +99,12 @@
 
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/viewpager_2"
-                        android:layout_marginStart="@dimen/define_dimen_10"
+                        android:layout_marginStart="@dimen/define_dimen_4"
                         android:layout_marginEnd="@dimen/define_dimen_10"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/define_dimen_4"
+                        android:layout_marginRight="@dimen/define_dimen_10" />
 
 
                 </LinearLayout>

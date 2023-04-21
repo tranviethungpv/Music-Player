@@ -9,7 +9,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/define_dimen_20">
+        android:layout_marginTop="@dimen/define_dimen_5">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,6 +27,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
+
+
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/viewpager_2"
                         android:layout_marginStart="@dimen/define_dimen_10"
@@ -40,31 +42,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/define_dimen_10"
+                    android:layout_marginTop="@dimen/define_dimen_5"
                     android:layout_marginEnd="@dimen/define_dimen_10"
-                    android:layout_marginBottom="@dimen/define_dimen_5"
-                    android:layout_marginTop="@dimen/define_dimen_5">
+                    android:layout_marginBottom="@dimen/define_dimen_5">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="@string/songs"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textSize="@dimen/text_size_normal"
-                        android:textStyle="bold"
-                        tools:ignore="RelativeOverlap" />
 
                     <LinearLayout
                         android:id="@+id/layout_view_all_popular"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="@dimen/define_dimen_5"
-                        android:layout_centerVertical="true"
                         android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
                         android:orientation="vertical"
-                        tools:ignore="RelativeOverlap"
-                        android:layout_alignParentRight="true">
+                        android:padding="@dimen/define_dimen_5"
+                        tools:ignore="RelativeOverlap">
 
                     </LinearLayout>
                 </RelativeLayout>
@@ -74,10 +67,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/define_dimen_10"
+                    android:layout_marginLeft="@dimen/define_dimen_10"
                     android:layout_marginBottom="@dimen/define_dimen_10"
                     android:focusable="false"
                     android:nestedScrollingEnabled="false"
-                    android:layout_marginLeft="@dimen/define_dimen_10"
                     tools:targetApi="lollipop" />
 
             </LinearLayout>
