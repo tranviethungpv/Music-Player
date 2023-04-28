@@ -14,7 +14,7 @@ class SongRepository {
     }
     fun getSongByHint(textView: TextView): MutableLiveData<ArrayList<Song>> {
         val hint = textView.text.toString()
-        return songService.getlistSongsearch(hint)
+        return songService.GetSongBYHint(hint)
     }
 
 
