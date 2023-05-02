@@ -2,15 +2,15 @@ package com.example.musicplayer.remote
 
 import android.content.ContentValues.TAG
 import android.util.Log
-import android.view.View
 import androidx.lifecycle.MutableLiveData
-import com.example.musicplayer.databinding.FragmentHomeBinding
+import com.example.musicplayer.GlobalFunction
 import com.example.musicplayer.model.Song
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import java.util.Locale
 
-class SongService {
+class SongRemote {
 
     //    private val databaseRef = FirebaseDatabase.getInstance().getReference("/songs")
 //    fun getAllSong(): MutableLiveData<ArrayList<Song>> {
@@ -43,34 +43,6 @@ class SongService {
                 for (snapshot in result) {
                     val song = snapshot.toObject(Song::class.java)
 
-                    val fileRef = storage.reference.child("songs/"+song.filename.toString())
-
-                    fileRef.downloadUrl
-                        .addOnSuccessListener { uri ->
-                            song.url = uri.toString()
-                            songs.add(song)
-                            songLiveData.value = ArrayList(songs)
-                        }
-                        .addOnFailureListener { exception ->
-                            Log.d(TAG, "getDownloadUrl failed with ", exception)
-                        }
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "get failed with ", exception)
-            }
-        return songLiveData
-    }
-    fun GetSongByHint(hint: String): MutableLiveData<ArrayList<Song>> {
-
-        val songLiveData = MutableLiveData<ArrayList<Song>>()
-        val docRef = db.collection("songs")
-        val songs: MutableList<Song> = mutableListOf()
-        docRef.whereEqualTo("title",hint).get()
-            .addOnSuccessListener { result ->
-                for (snapshot in result) {
-                    val song = snapshot.toObject(Song::class.java)
-
                     val fileRef = storage.reference.child("songs/" + song.filename.toString())
 
                     fileRef.downloadUrl
@@ -89,4 +61,48 @@ class SongService {
             }
         return songLiveData
     }
+
+    fun getSongByHint(hint: String): MutableLiveData<ArrayList<Song>> {
+        val songLiveData = MutableLiveData<ArrayList<Song>>()
+        val docRef = db.collection("songs")
+        val songs: ArrayList<Song> = ArrayList()
+        var hasSong = false
+
+        docRef.get()
+            .addOnSuccessListener { result ->
+                for (snapshot in result) {
+                    val song = snapshot.toObject(Song::class.java)
+
+                    val fileRef = storage.reference.child("songs/" + song.filename.toString())
+
+                    fileRef.downloadUrl
+                        .addOnSuccessListener { uri ->
+                            if (GlobalFunction.getTextSearch(hint)?.lowercase(Locale.ROOT)?.let {
+                                    GlobalFunction.getTextSearch(song.title.toString())
+                                        ?.lowercase(Locale.ROOT)?.trim()
+                                        ?.contains(
+                                            it.trim()
+                                        )
+                                } == true
+                            ) {
+                                song.url = uri.toString()
+                                songs.add(song)
+                                hasSong = true
+                                songLiveData.value = ArrayList(songs)
+                            }
+                        }
+                        .addOnFailureListener { exception ->
+                            Log.d(TAG, "getDownloadUrl failed with ", exception)
+                        }
+                }
+                if (!hasSong) {
+                    songLiveData.value = ArrayList()
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+        return songLiveData
+    }
+
 }

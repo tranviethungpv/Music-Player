@@ -1,5 +1,6 @@
 package com.example.musicplayer.activity.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +11,8 @@ import com.bumptech.glide.Glide
 import com.example.musicplayer.R
 import com.example.musicplayer.model.Song
 
-class SongSearchadapter(private var listSong: MutableList<Song>) :
-    RecyclerView.Adapter<SongSearchadapter.SongViewHolder>() {
+class SongSearchAdapter(private var listSong: MutableList<Song>) :
+    RecyclerView.Adapter<SongSearchAdapter.SongViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.adapter_listsongsearch, parent, false)
@@ -28,6 +29,7 @@ class SongSearchadapter(private var listSong: MutableList<Song>) :
         holder.artist.text = currentItem.artist
         Glide.with(holder.itemView.context).load(currentItem.image).into(holder.image)
     }
+    @SuppressLint("NotifyDataSetChanged")
     fun clear() {
         listSong.clear()
         notifyDataSetChanged()
