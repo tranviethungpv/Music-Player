@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.musicplayer.R
 import com.example.musicplayer.model.Song
 
-class SongSearchadapter(private var listSong: ArrayList<Song>) :
+class SongSearchadapter(private var listSong: MutableList<Song>) :
     RecyclerView.Adapter<SongSearchadapter.SongViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder {
@@ -28,7 +28,10 @@ class SongSearchadapter(private var listSong: ArrayList<Song>) :
         holder.artist.text = currentItem.artist
         Glide.with(holder.itemView.context).load(currentItem.image).into(holder.image)
     }
-
+    fun clear() {
+        listSong.clear()
+        notifyDataSetChanged()
+    }
     class SongViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.tv_song_name)
         val artist: TextView = itemView.findViewById(R.id.tv_artist)

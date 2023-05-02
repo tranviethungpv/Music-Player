@@ -1,14 +1,19 @@
 package com.example.musicplayer.views
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
+import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import android.widget.ViewFlipper
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -18,19 +23,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.musicplayer.R
 import com.example.musicplayer.activity.adapter.SongSearchadapter
 import com.example.musicplayer.activity.adapter.Songadapter
+
+import com.example.musicplayer.model.Song
 import com.example.musicplayer.viewmodels.SongViewModel
-import com.squareup.picasso.Picasso
 
 
 class Home : Fragment() {
     private lateinit var songAdapter: Songadapter
     private lateinit var recyclerViewListSong: RecyclerView
     private lateinit var songViewModel: SongViewModel
-    private lateinit var songListSeach: SongSearchadapter
+    private var songListSeach = SongSearchadapter(mutableListOf<Song>())
     private lateinit var imgSearch:ImageView
     private lateinit var hint:TextView
     private lateinit var layoutSearch:RecyclerView
     private lateinit  var viewFlipper :ViewFlipper
+
+    private lateinit  var searchSong:SearchView
+    private lateinit var song:Song
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,18 +58,24 @@ class Home : Fragment() {
                 recyclerViewListSong.adapter = songAdapter
             }
         })
-
-        recyclerViewListSong.setOnClickListener {
-
-        }
+        //searchSong = view.findViewById(R.id.searchView)
+        hint=view.findViewById(R.id.edt_search_name)
+        imgSearch=view.findViewById(R.id.img_search)
+        layoutSearch = view.findViewById<RecyclerView>(R.id.layout_search)
+        layoutSearch.layoutManager = GridLayoutManager(activity, 1)
+        layoutSearch.addItemDecoration(dividerDecoration)
         viewFlipper = view.findViewById(R.id.viewflipper)
         ActionViewFlipper()
-       // SearchByHint()
+
+        imgSearch.setOnClickListener(View.OnClickListener {
+
+            searchSongByHint(hint.text.toString())}
+        )
+
         return view
     }
 
     private fun ActionViewFlipper() {
-       //var viewFlipper = getView()?.findViewById<ViewFlipper>(R.id.viewflipper)
         val imageList = mutableListOf(
             R.drawable.banner01,
             R.drawable.banner02,
@@ -72,13 +87,38 @@ class Home : Fragment() {
             val imageView = ImageView(requireContext())
             imageView.setImageResource(image)
             imageView.scaleType = ImageView.ScaleType.FIT_XY
-            viewFlipper?.addView(imageView)
+            viewFlipper.addView(imageView)
         }
-        viewFlipper?.setFlipInterval(5000)
-        viewFlipper?.setAutoStart(true)
-        viewFlipper?.setInAnimation(requireContext(), android.R.anim.fade_in)
-        viewFlipper?.setOutAnimation(requireContext(), android.R.anim.fade_out)
+        viewFlipper.setFlipInterval(5000)
+        viewFlipper.setAutoStart(true)
+        viewFlipper.setInAnimation(requireContext(), android.R.anim.fade_in)
+        viewFlipper.setOutAnimation(requireContext(), android.R.anim.fade_out)
+    }
+    private fun searchSongByHint(strKey: String?) {
+        if (strKey != null) {
+            songListSeach.clear()
+            songViewModel.getSongByHint(strKey).observe(viewLifecycleOwner, Observer { songs ->
+                if (songs.isNotEmpty()) {
+                    layoutSearch.visibility = View.VISIBLE
+
+                    val searchAdapter = SongSearchadapter(songs)
+
+                    layoutSearch.adapter = searchAdapter // set the adapter to the layoutSearch RecyclerView
+                }
+                else {
+                    Toast.makeText(requireContext(), "Không có bài hát tìm kiếm", Toast.LENGTH_SHORT).apply {
+                        setGravity(Gravity.BOTTOM, 200, 500)
+                    }.show()
+                }
+            })
+        }
+        else {
+            Toast.makeText(requireContext(),"Không có bài hát tìm kiếm", Toast.LENGTH_SHORT).apply { setGravity(
+                Gravity.BOTTOM, 0, 0) }.show()
+        }
     }
 
 
 }
+
+

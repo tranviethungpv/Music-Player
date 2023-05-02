@@ -16,7 +16,7 @@ android {
     }
     defaultConfig {
         applicationId "com.example.musicplayer"
-        minSdk 16
+        minSdk 19
         targetSdk 33
         versionCode 1
         versionName "1.0"

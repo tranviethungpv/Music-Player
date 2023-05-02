@@ -6,13 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical" >
-
-
-
-
+    android:orientation="vertical">
     <RelativeLayout
-        android:id="@+id/layout_search"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/define_dimen_10"
@@ -20,6 +16,11 @@
         android:layout_marginEnd="@dimen/define_dimen_10"
         android:background="@color/white">
 
+<!--        <androidx.appcompat.widget.SearchView-->
+<!--            android:id="@+id/searchView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="@dimen/define_dimen_5"/>-->
         <EditText
             android:id="@+id/edt_search_name"
             android:layout_width="match_parent"
@@ -37,9 +38,8 @@
             android:layout_width="1dp"
             android:layout_height="@dimen/define_dimen_35"
             android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/img_search"
-            android:background="@color/colorPrimaryDark"
-            android:layout_toLeftOf="@+id/img_search" />
+            android:layout_toLeftOf="@+id/img_search"
+            android:background="@color/colorPrimaryDark" />
 
         <ImageView
             android:id="@+id/img_search"
@@ -53,8 +53,25 @@
             tools:ignore="ContentDescription"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/define_dimen_5" />
-    </RelativeLayout>
 
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/layout_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_toStartOf="@id/img_search"
+            android:focusable="auto"
+            android:visibility="gone"
+            android:nestedScrollingEnabled="false"
+            tools:targetApi="lollipop" />
+
+    </LinearLayout>
     <ViewFlipper
         android:id="@+id/viewflipper"
         android:layout_width="match_parent"
@@ -69,18 +86,14 @@
         android:text="@string/songs"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="24dp"
-
         android:layout_marginTop="@dimen/define_dimen_10"
         android:layout_marginStart="@dimen/define_dimen_10"
-
         tools:ignore="RelativeOverlap"
         android:layout_marginLeft="@dimen/define_dimen_10" />
-    <androidx.core.widget.NestedScrollView
+        <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/define_dimen_5">
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
