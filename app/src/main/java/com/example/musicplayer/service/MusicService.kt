@@ -9,26 +9,32 @@ import com.example.musicplayer.Constant
 import com.example.musicplayer.model.Song
 import kotlin.properties.Delegates
 
-class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener {
+class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
     companion object {
+        var isPlaying = false
+        var listSongPlaying = mutableListOf<Song>()
+        var songPosition = 0
         var mediaPlayer: MediaPlayer? = null
-        var songAction by Delegates.notNull<Int>()
-        var songPosition by Delegates.notNull<Int>()
-        var listSongPlaying: ArrayList<Song> = ArrayList()
-        var lengthSong by Delegates.notNull<Int>()
+        var lengthSong = 0
+        var songAction = -1
+        fun clearListSongPlaying() {
+            listSongPlaying.clear()
+        }
     }
 
-    override fun onBind(intent: Intent): IBinder {
-        TODO("Return the communication channel to the service.")
+    override fun onBind(intent: Intent): IBinder? {
+        return null
     }
 
     override fun onCreate() {
         super.onCreate()
-        mediaPlayer = MediaPlayer()
+        if (mediaPlayer == null) {
+            mediaPlayer = MediaPlayer()
+        }
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val bundle = intent!!.extras
+    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+        val bundle = intent.extras
         if (bundle != null) {
             if (bundle.containsKey(Constant.MUSIC_ACTION)) {
                 songAction = bundle.getInt(Constant.MUSIC_ACTION)
@@ -36,76 +42,91 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
             if (bundle.containsKey(Constant.SONG_POSITION)) {
                 songPosition = bundle.getInt(Constant.SONG_POSITION)
             }
+
             handleActionMusic(songAction)
         }
+
         return START_NOT_STICKY
-    }
-
-    override fun onCompletion(mp: MediaPlayer?) {
-        songAction = Constant.NEXT
-        nextSong()
-    }
-
-    override fun onPrepared(mp: MediaPlayer?) {
-        lengthSong = mediaPlayer?.duration ?: 0
-        mp?.start()
-        songAction = Constant.PLAY
-        sendMusicNotification()
-        sendBroadcastChangeListener()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         if (mediaPlayer != null) {
-            mediaPlayer!!.release()
+            mediaPlayer?.release()
             mediaPlayer = null
         }
     }
 
+    override fun onCompletion(mp: MediaPlayer) {
+        songAction = Constant.NEXT
+        nextSong()
+        sendBroadcastChangeListener()
+    }
 
-    private fun handleActionMusic(action: Int){
-        when (action){
+    override fun onPrepared(mp: MediaPlayer) {
+        lengthSong = mediaPlayer!!.duration
+        mp.start()
+        isPlaying = true
+        songAction = Constant.PLAY
+        sendBroadcastChangeListener()
+    }
+
+    private fun handleActionMusic(action: Int) {
+        when (action) {
             Constant.PLAY -> playSong()
             Constant.PREVIOUS -> prevSong()
             Constant.NEXT -> nextSong()
             Constant.PAUSE -> pauseSong()
             Constant.RESUME -> resumeSong()
-            Constant.CANCEL_NOTIFICATION -> cancelNotification()
+            //Constant.CANCEL_NOTIFICATION -> cancelNotification()
+            else -> Unit
         }
     }
 
-    private fun playMediaPlayer(url: String){
-        if (mediaPlayer?.isPlaying == true) {
-            mediaPlayer!!.stop()
-        }
-        mediaPlayer?.reset()
-        mediaPlayer?.setDataSource(url)
-        mediaPlayer?.prepareAsync()
+    private fun initControl() {
         mediaPlayer?.setOnPreparedListener(this)
         mediaPlayer?.setOnCompletionListener(this)
     }
 
-    private fun playSong(){
-        val songUrl: String = listSongPlaying[songPosition].url.toString()
-        if (songUrl.isNotBlank() || songUrl.isNotEmpty()) {
+    private fun playMediaPlayer(songUrl: String) {
+        try {
+            if (mediaPlayer?.isPlaying == true) {
+                mediaPlayer?.stop()
+            }
+            mediaPlayer?.reset()
+            mediaPlayer?.setDataSource(songUrl)
+            mediaPlayer?.prepareAsync()
+            initControl()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun playSong() {
+        val songUrl = listSongPlaying[songPosition].url
+        if (songUrl?.isNotEmpty() == true) {
             playMediaPlayer(songUrl)
-        }
-    }
-    private fun pauseSong(){
-        if (mediaPlayer != null && mediaPlayer?.isPlaying == true) {
-            mediaPlayer!!.pause()
-            sendMusicNotification()
             sendBroadcastChangeListener()
         }
     }
-    private fun resumeSong(){
+
+    private fun pauseSong() {
+        if (mediaPlayer?.isPlaying == true) {
+            mediaPlayer?.pause()
+            isPlaying = false
+            sendBroadcastChangeListener()
+        }
+    }
+
+    private fun resumeSong() {
         if (mediaPlayer != null) {
-            mediaPlayer!!.start()
-            sendMusicNotification()
+            mediaPlayer?.start()
+            isPlaying = true
             sendBroadcastChangeListener()
         }
     }
-    private fun prevSong(){
+
+    private fun prevSong() {
         if (listSongPlaying.size > 1) {
             if (songPosition > 0) {
                 songPosition--
@@ -115,25 +136,22 @@ class MusicService : Service(), MediaPlayer.OnCompletionListener, MediaPlayer.On
         } else {
             songPosition = 0
         }
-        sendMusicNotification()
         sendBroadcastChangeListener()
         playSong()
     }
-    private fun nextSong(){
+
+    private fun nextSong() {
         if (listSongPlaying.size > 1 && songPosition < listSongPlaying.size - 1) {
             songPosition++
         } else {
             songPosition = 0
         }
-        sendMusicNotification()
         sendBroadcastChangeListener()
         playSong()
     }
 
-
-    private fun cancelNotification(){}
-    private fun sendMusicNotification(){}
-    private fun sendBroadcastChangeListener(){
+    private fun sendBroadcastChangeListener() {
+        //implicit intent
         val intent = Intent(Constant.CHANGE_LISTENER)
         intent.putExtra(Constant.MUSIC_ACTION, songAction)
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
