@@ -13,8 +13,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.musicplayer.Constant
-import com.example.musicplayer.R
 import com.example.musicplayer.view.adapter.SongSearchAdapter
 import com.example.musicplayer.databinding.FragmentHomeBinding
 import com.example.musicplayer.listener.ISongClickListener
@@ -91,18 +91,17 @@ class HomeFragment : Fragment() {
     }
 
     private fun actionViewFlipper() {
-        val imageList = mutableListOf(
-            R.drawable.banner01,
-            R.drawable.banner02,
-            R.drawable.banner03
-        )
-
-        // Thêm các ảnh vào ViewFlipper
-        imageList.forEach { image ->
-            val imageView = ImageView(requireContext())
-            imageView.setImageResource(image)
-            imageView.scaleType = ImageView.ScaleType.FIT_XY
-            viewFlipper.addView(imageView)
+        songViewModel = ViewModelProvider(this)[SongViewModel::class.java]
+        songViewModel.allSongs.observe(viewLifecycleOwner) {
+            for(song in it){
+                val imageView = ImageView(requireContext())
+                Glide.with(requireContext()).load(song.image.toString()).into(imageView)
+                imageView.scaleType = ImageView.ScaleType.FIT_XY
+                imageView.setOnClickListener {
+                    playSong(song)
+                }
+                viewFlipper.addView(imageView)
+            }
         }
         viewFlipper.flipInterval = 5000
         viewFlipper.isAutoStart = true
