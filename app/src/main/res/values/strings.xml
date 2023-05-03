@@ -17,4 +17,5 @@
     <string name="artist">Artists</string>
     <string name="About">About</string>
     <string name="music">Musics</string>
+    <string name="todoNotification">TODO</string>
 </resources>
