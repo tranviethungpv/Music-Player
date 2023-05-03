@@ -8,7 +8,6 @@
     android:orientation="vertical">
 
     <RelativeLayout
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/define_dimen_10"
@@ -140,4 +139,3 @@
     </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>
-

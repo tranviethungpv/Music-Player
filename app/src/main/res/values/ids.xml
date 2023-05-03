@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="layout_close" type="id" />
+    <item name="img_close" type="id" />
+    <item name="img_song" type="id" />
+    <item name="layout_item" type="id" />
+    <item name="layout_text" type="id" />
+    <item name="layout_button" type="id" />
+    <item name="textartist" type="id" />
+</resources>
