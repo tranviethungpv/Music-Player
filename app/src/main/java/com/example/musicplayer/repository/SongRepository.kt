@@ -14,4 +14,7 @@ class SongRepository {
        // val hint = textView.text.toString()
         return songRemote.getSongByHint(hint)
     }
+    fun getSongbyArtist(name:String):MutableLiveData<ArrayList<Song>>{
+        return songRemote.getSongByArtist(name)
+    }
 }

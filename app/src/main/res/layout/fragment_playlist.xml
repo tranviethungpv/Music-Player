@@ -8,17 +8,16 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
+        android:id="@+id/playlistname"
         android:textSize="@dimen/text_size_normal"
-        android:text=" Artists"
+        android:textStyle="bold"
+        android:text="Playlist"
         android:layout_marginStart="@dimen/define_dimen_5">
-
     </TextView>
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/define_dimen_5">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,7 +70,7 @@
                 </RelativeLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerListArtist"
+                    android:id="@+id/recyclerPlaylist"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/define_dimen_10"
