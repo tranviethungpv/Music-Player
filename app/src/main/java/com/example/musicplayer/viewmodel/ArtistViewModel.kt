@@ -10,4 +10,5 @@ import com.example.musicplayer.repository.ArtistRepository
 class ArtistViewModel(application: Application): AndroidViewModel(application){
     private val artistRepository =ArtistRepository()
     val allArtists: MutableLiveData<ArrayList<Artist>> = artistRepository.getAllArtist()
+
 }

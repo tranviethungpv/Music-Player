@@ -12,4 +12,7 @@ class SongViewModel(application: Application): AndroidViewModel(application) {
     fun getSongByHint(hint: String): MutableLiveData<ArrayList<Song>> {
         return songRepository.getSongByHint(hint)
     }
+    fun getSongByArtist(name:String):MutableLiveData<ArrayList<Song>>{
+        return songRepository.getSongbyArtist(name)
+    }
 }
