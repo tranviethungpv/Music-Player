@@ -91,7 +91,7 @@ proguard/
 *.ipr
 *~
 *.swp
-
+local.properties
 # Keystore files
 
 # Google Services (e.g. APIs or Firebase)

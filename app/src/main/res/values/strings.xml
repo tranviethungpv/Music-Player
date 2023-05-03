@@ -11,6 +11,10 @@
     <string name="songs">Songs</string>
     <string name="texttitle">Title</string>
     <string name="imageThumbnail">Thumbnail</string>
-    <string name="textartist">Artist</string>
+    <string name="textartist">Artist: </string>
+
     <string name="label_start_time">00:00</string>
+    <string name="my_music">My Music</string>
+    <string name="settings">Settings</string>
+    <string name="home">Home</string>
 </resources>

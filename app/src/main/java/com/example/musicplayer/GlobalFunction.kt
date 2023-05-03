@@ -13,6 +13,10 @@ class GlobalFunction {
             musicService.putExtra(Constant.SONG_POSITION, songPosition)
             ContextCompat.startForegroundService(ctx, musicService)
         }
-
+        fun getTextSearch(input: String?): String? {
+            val nfdNormalizedString = Normalizer.normalize(input, Normalizer.Form.NFD)
+            val pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+")
+            return pattern.matcher(nfdNormalizedString).replaceAll("")
+        }
     }
 }

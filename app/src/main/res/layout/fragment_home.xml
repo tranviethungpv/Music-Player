@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_content"
     android:layout_width="match_parent"
@@ -9,7 +8,6 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/layout_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/define_dimen_10"
@@ -17,6 +15,11 @@
         android:layout_marginEnd="@dimen/define_dimen_10"
         android:background="@color/white">
 
+        <!--        <androidx.appcompat.widget.SearchView-->
+        <!--            android:id="@+id/searchView"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginBottom="@dimen/define_dimen_5"/>-->
         <EditText
             android:id="@+id/edt_search_name"
             android:layout_width="match_parent"
@@ -28,15 +31,14 @@
             android:padding="@dimen/define_dimen_12"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/text_size_xsmall"
-            tools:ignore="Autofill,TouchTargetSizeCheck" />
+            tools:ignore="Autofill,TouchTargetSizeCheck,TextContrastCheck,VisualLintTextFieldSize" />
 
         <View
             android:layout_width="1dp"
             android:layout_height="@dimen/define_dimen_35"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@+id/img_search"
-            android:background="@color/colorPrimaryDark"
-            android:layout_toLeftOf="@+id/img_search" />
+            android:background="@color/colorPrimaryDark" />
 
         <ImageView
             android:id="@+id/img_search"
@@ -47,20 +49,58 @@
             android:layout_marginEnd="@dimen/define_dimen_5"
             android:padding="@dimen/define_dimen_5"
             android:src="@drawable/ic_search_red"
-            tools:ignore="ContentDescription"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/define_dimen_5" />
+            tools:ignore="ContentDescription" />
+
+
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/layout_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:focusable="auto"
+            android:nestedScrollingEnabled="false"
+            android:visibility="gone"
+            tools:targetApi="lollipop" />
+
+    </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/define_dimen_20">
+        android:layout_marginTop="@dimen/define_dimen_5">
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <ViewFlipper
+                android:id="@+id/viewflipper"
+                android:layout_width="match_parent"
+                android:layout_height="211dp"
+                android:layout_marginTop="@dimen/define_dimen_20"
+                android:layout_marginStart="@dimen/define_dimen_10"
+                android:layout_marginEnd="@dimen/define_dimen_10">
+
+            </ViewFlipper>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/define_dimen_10"
+                android:layout_marginTop="@dimen/define_dimen_10"
+                android:text="@string/songs"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/text_size_normal"
+                tools:ignore="RelativeOverlap" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -75,52 +115,13 @@
 
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/viewpager_2"
-                        android:layout_marginStart="@dimen/define_dimen_10"
-                        android:layout_marginEnd="@dimen/define_dimen_10"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/define_dimen_4"
+                        android:layout_marginEnd="@dimen/define_dimen_10" />
 
-<!--                    <me.relex.circleindicator.CircleIndicator3-->
-<!--                        android:id="@+id/indicator_3"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="@dimen/define_dimen_30"-->
-<!--                        android:layout_gravity="center"-->
-<!--                        app:ci_drawable="@drawable/bg_indicatior_selected"-->
-<!--                        app:ci_drawable_unselected="@drawable/bg_indicatior_unselected" />-->
+
                 </LinearLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/define_dimen_10"
-                    android:layout_marginEnd="@dimen/define_dimen_10"
-                    android:layout_marginBottom="@dimen/define_dimen_5"
-                    android:layout_marginTop="@dimen/define_dimen_5">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="@string/songs"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textSize="@dimen/text_size_normal"
-                        android:textStyle="bold"
-                        tools:ignore="RelativeOverlap" />
-
-                    <LinearLayout
-                        android:id="@+id/layout_view_all_popular"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="@dimen/define_dimen_5"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentEnd="true"
-                        android:orientation="vertical"
-                        tools:ignore="RelativeOverlap"
-                        android:layout_alignParentRight="true">
-
-                    </LinearLayout>
-                </RelativeLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerListSongs"
@@ -130,7 +131,6 @@
                     android:layout_marginBottom="@dimen/define_dimen_10"
                     android:focusable="false"
                     android:nestedScrollingEnabled="false"
-                    android:layout_marginLeft="@dimen/define_dimen_10"
                     tools:targetApi="lollipop" />
 
             </LinearLayout>
