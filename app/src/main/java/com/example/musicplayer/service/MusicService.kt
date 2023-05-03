@@ -1,12 +1,27 @@
 package com.example.musicplayer.service
 
+import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.IBinder
+import android.widget.RemoteViews
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.bumptech.glide.Glide
 import com.example.musicplayer.Constant
+import com.example.musicplayer.GlobalFunction
+import com.example.musicplayer.GlobalFunction.Companion.getCircularBitmap
+import com.example.musicplayer.R
 import com.example.musicplayer.model.Song
+import com.example.musicplayer.view.activity.PlayMusicActivity
 import kotlin.properties.Delegates
 
 class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
@@ -17,9 +32,6 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
         var mediaPlayer: MediaPlayer? = null
         var lengthSong = 0
         var songAction = -1
-        fun clearListSongPlaying() {
-            listSongPlaying.clear()
-        }
     }
 
     override fun onBind(intent: Intent): IBinder? {
@@ -60,6 +72,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
     override fun onCompletion(mp: MediaPlayer) {
         songAction = Constant.NEXT
         nextSong()
+        sendMusicNotification()
         sendBroadcastChangeListener()
     }
 
@@ -68,6 +81,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
         mp.start()
         isPlaying = true
         songAction = Constant.PLAY
+        sendMusicNotification()
         sendBroadcastChangeListener()
     }
 
@@ -78,7 +92,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
             Constant.NEXT -> nextSong()
             Constant.PAUSE -> pauseSong()
             Constant.RESUME -> resumeSong()
-            //Constant.CANCEL_NOTIFICATION -> cancelNotification()
+            Constant.CANCEL_NOTIFICATION -> cancelNotification()
             else -> Unit
         }
     }
@@ -106,6 +120,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
         val songUrl = listSongPlaying[songPosition].url
         if (songUrl?.isNotEmpty() == true) {
             playMediaPlayer(songUrl)
+            sendMusicNotification()
             sendBroadcastChangeListener()
         }
     }
@@ -114,6 +129,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
         if (mediaPlayer?.isPlaying == true) {
             mediaPlayer?.pause()
             isPlaying = false
+            sendMusicNotification()
             sendBroadcastChangeListener()
         }
     }
@@ -122,6 +138,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
         if (mediaPlayer != null) {
             mediaPlayer?.start()
             isPlaying = true
+            sendMusicNotification()
             sendBroadcastChangeListener()
         }
     }
@@ -136,6 +153,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
         } else {
             songPosition = 0
         }
+        sendMusicNotification()
         sendBroadcastChangeListener()
         playSong()
     }
@@ -146,8 +164,109 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
         } else {
             songPosition = 0
         }
+        sendMusicNotification()
         sendBroadcastChangeListener()
         playSong()
+    }
+
+    private fun cancelNotification() {
+        if (mediaPlayer?.isPlaying == true) {
+            mediaPlayer?.pause()
+            isPlaying = false
+        }
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.cancelAll()
+        sendBroadcastChangeListener()
+        stopSelf()
+    }
+
+    @SuppressLint("RemoteViewLayout")
+    private fun sendMusicNotification() {
+        val song = listSongPlaying[songPosition]
+
+        val pendingFlag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        } else {
+            PendingIntent.FLAG_UPDATE_CURRENT
+        }
+        val intent = Intent(applicationContext, PlayMusicActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, pendingFlag)
+
+        val remoteViews =
+            RemoteViews(applicationContext.packageName, R.layout.layout_push_notification_music)
+        remoteViews.setTextViewText(R.id.tv_song_name, song.title)
+        remoteViews.setTextViewText(R.id.tv_artist, song.artist)
+        // Load the image using Glide
+        try {
+            val bitmap: Bitmap = Glide.with(applicationContext)
+                .asBitmap()
+                .load(song.image.toString())
+                .submit(512, 512)
+                .get()
+            remoteViews.setImageViewBitmap(R.id.img_song, getCircularBitmap(bitmap))
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+
+        // Check if the notification channel exists (need in Android 8.0 and above)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationManagerCompat.from(this)
+                .getNotificationChannel("channel_music_player_id")
+            if (channel == null) {
+                // Channel does not exist, create it
+                val name = "Music Player"
+                val descriptionText = "Music Player Notifications"
+                val importance = NotificationManager.IMPORTANCE_DEFAULT
+                val channelNotification =
+                    NotificationChannel("channel_music_player_id", name, importance).apply {
+                        description = descriptionText
+                    }
+                val notificationManager =
+                    getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                notificationManager.createNotificationChannel(channelNotification)
+            }
+        }
+
+        // Set listener
+        remoteViews.setOnClickPendingIntent(
+            R.id.img_previous,
+            GlobalFunction.openMusicReceiver(this, Constant.PREVIOUS)
+        )
+        remoteViews.setOnClickPendingIntent(
+            R.id.img_next,
+            GlobalFunction.openMusicReceiver(this, Constant.NEXT)
+        )
+        if (isPlaying) {
+            remoteViews.setImageViewResource(R.id.img_play, R.drawable.ic_pause_gray)
+            remoteViews.setOnClickPendingIntent(
+                R.id.img_play,
+                GlobalFunction.openMusicReceiver(this, Constant.PAUSE)
+            )
+        } else {
+            remoteViews.setImageViewResource(R.id.img_play, R.drawable.ic_play_gray)
+            remoteViews.setOnClickPendingIntent(
+                R.id.img_play,
+                GlobalFunction.openMusicReceiver(this, Constant.RESUME)
+            )
+        }
+        remoteViews.setOnClickPendingIntent(
+            R.id.img_close,
+            GlobalFunction.openMusicReceiver(this, Constant.CANCEL_NOTIFICATION)
+        )
+
+        val notification = NotificationCompat.Builder(applicationContext, "channel_music_player_id")
+            .setSmallIcon(R.drawable.ic_small_push_notification)
+            .setContentIntent(pendingIntent)
+            .setCustomContentView(remoteViews)
+            .setSound(null)
+            .build()
+
+        startForeground(1, notification)
+    }
+
+    fun clearListSongPlaying() {
+        listSongPlaying.clear()
     }
 
     private fun sendBroadcastChangeListener() {
