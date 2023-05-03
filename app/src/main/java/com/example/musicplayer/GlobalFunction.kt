@@ -18,6 +18,11 @@ import java.util.regex.Pattern
 
 class GlobalFunction {
     companion object {
+        fun startActivity(context: Context, clz: Class<*>?) {
+            val intent = Intent(context, clz)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(intent)
+        }
         fun startMusicService(ctx: Context, action: Int, songPosition: Int) {
             val musicService = Intent(ctx, MusicService::class.java)
             musicService.putExtra(Constant.MUSIC_ACTION, action)

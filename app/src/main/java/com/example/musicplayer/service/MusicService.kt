@@ -32,6 +32,9 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
         var mediaPlayer: MediaPlayer? = null
         var lengthSong = 0
         var songAction = -1
+        fun clearListSongPlaying() {
+            listSongPlaying.clear()
+        }
     }
 
     override fun onBind(intent: Intent): IBinder? {
@@ -263,10 +266,6 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
             .build()
 
         startForeground(1, notification)
-    }
-
-    fun clearListSongPlaying() {
-        listSongPlaying.clear()
     }
 
     private fun sendBroadcastChangeListener() {

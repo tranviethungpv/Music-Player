@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.musicplayer.Constant
+import com.example.musicplayer.GlobalFunction
 import com.example.musicplayer.view.adapter.SongSearchAdapter
 import com.example.musicplayer.databinding.FragmentHomeBinding
 import com.example.musicplayer.listener.ISongClickListener
@@ -56,15 +57,23 @@ class HomeFragment : Fragment() {
 
             searchSongByHint(hint.text.toString())
         }
-
+        fragmentHomeBinding.playall.setOnClickListener{
+            songViewModel = ViewModelProvider(this)[SongViewModel::class.java]
+            songViewModel.allSongs.observe(viewLifecycleOwner) {
+                MusicService.clearListSongPlaying()
+                MusicService.listSongPlaying.addAll(it)
+                MusicService.isPlaying = false
+                GlobalFunction.startMusicService(requireContext(), Constant.PLAY, 0)
+                GlobalFunction.startActivity(requireActivity(), PlayMusicActivity::class.java)
+            }
+        }
         return fragmentHomeBinding.root
     }
 
     private fun renderListSong(){
         recyclerViewListSong = fragmentHomeBinding.recyclerListSongs
         recyclerViewListSong.layoutManager = GridLayoutManager(activity, 2)
-        val dividerDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
-        recyclerViewListSong.addItemDecoration(dividerDecoration)
+
         songViewModel = ViewModelProvider(this)[SongViewModel::class.java]
         songViewModel.allSongs.observe(viewLifecycleOwner) {
             songAdapter = ListSongAdapter(it, object : ISongClickListener {

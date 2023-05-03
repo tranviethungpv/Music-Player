@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musicplayer.Constant
+import com.example.musicplayer.GlobalFunction
 import com.example.musicplayer.databinding.FragmentPlaylistBinding
 import com.example.musicplayer.listener.ISongClickListener
 import com.example.musicplayer.model.Song
@@ -37,6 +38,16 @@ class PlayListMusic : Fragment() {
         fragmentPlayListMusic = FragmentPlaylistBinding.inflate(inflater, container, false)
         fragmentPlayListMusic.playlistname.text = Artist.selectedArtistName
         renderListSong()
+        fragmentPlayListMusic.playallartist.setOnClickListener{
+            songViewModel = ViewModelProvider(this)[SongViewModel::class.java]
+            songViewModel.getSongByArtist(Artist.selectedArtistName).observe(viewLifecycleOwner) {
+                MusicService.clearListSongPlaying()
+                MusicService.listSongPlaying.addAll(it)
+                MusicService.isPlaying = false
+                GlobalFunction.startMusicService(requireContext(), Constant.PLAY, 0)
+                GlobalFunction.startActivity(requireActivity(), PlayMusicActivity::class.java)
+            }
+        }
         return fragmentPlayListMusic.root
     }
 
@@ -58,13 +69,8 @@ class PlayListMusic : Fragment() {
         MusicService.listSongPlaying.clear()
         MusicService.listSongPlaying.add(song)
 
-        val musicService = Intent(requireContext(), MusicService::class.java)
-        musicService.putExtra(Constant.MUSIC_ACTION, Constant.PLAY)
-        musicService.putExtra(Constant.SONG_POSITION, 0)
-        requireContext().startService(musicService)
+        GlobalFunction.startMusicService(requireContext(), Constant.PLAY, 0)
 
-        val intent = Intent(requireContext(), PlayMusicActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-        requireContext().startActivity(intent)
+        GlobalFunction.startActivity(requireContext(), PlayMusicActivity::class.java)
     }
 }

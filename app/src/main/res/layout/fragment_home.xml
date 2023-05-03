@@ -85,22 +85,53 @@
                 android:id="@+id/viewflipper"
                 android:layout_width="match_parent"
                 android:layout_height="211dp"
-                android:layout_marginTop="@dimen/define_dimen_20"
                 android:layout_marginStart="@dimen/define_dimen_10"
+                android:layout_marginTop="@dimen/define_dimen_20"
                 android:layout_marginEnd="@dimen/define_dimen_10">
 
             </ViewFlipper>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/define_dimen_10"
-                android:layout_marginTop="@dimen/define_dimen_10"
-                android:text="@string/songs"
-                android:textStyle="bold"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/text_size_normal"
-                tools:ignore="RelativeOverlap" />
+                android:layout_marginEnd="@dimen/define_dimen_10"
+                android:layout_marginBottom="@dimen/define_dimen_5"
+                android:layout_marginTop="@dimen/define_dimen_5">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/songs"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/text_size_normal"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/layout_view_all_popular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/define_dimen_5"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:orientation="vertical"
+                    tools:ignore="RelativeOverlap">
+
+                    <TextView
+                        android:id="@+id/playall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/play_all"
+                        android:textColor="@color/purple_700"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/purple_700"/>
+                </LinearLayout>
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

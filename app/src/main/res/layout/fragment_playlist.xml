@@ -5,19 +5,52 @@
     android:layout_height="match_parent"
     android:layout_marginTop="20dp"
     >
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/playlistname"
-        android:textSize="@dimen/text_size_normal"
-        android:textStyle="bold"
-        android:text="Playlist"
-        android:layout_marginStart="@dimen/define_dimen_5">
-    </TextView>
+        android:layout_marginStart="@dimen/define_dimen_10"
+        android:layout_marginEnd="@dimen/define_dimen_10"
+        android:layout_marginBottom="@dimen/define_dimen_10"
+        android:layout_marginTop="0dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:id="@+id/playlistname"
+            android:textSize="@dimen/text_size_normal"
+            android:textStyle="bold"
+            android:text="Playlist"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/define_dimen_5"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:orientation="vertical"
+            tools:ignore="RelativeOverlap">
+
+            <TextView
+                android:id="@+id/playallartist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/play_all"
+                android:textColor="@color/purple_700"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/purple_700"/>
+        </LinearLayout>
+    </RelativeLayout>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/define_dimen_5">
+        android:layout_marginTop="@dimen/define_dimen_30">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,39 +68,7 @@
                     android:orientation="vertical">
 
 
-
-                    <androidx.viewpager2.widget.ViewPager2
-                        android:id="@+id/viewpager_2"
-                        android:layout_marginStart="@dimen/define_dimen_10"
-                        android:layout_marginEnd="@dimen/define_dimen_10"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
                 </LinearLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/define_dimen_10"
-                    android:layout_marginTop="@dimen/define_dimen_5"
-                    android:layout_marginEnd="@dimen/define_dimen_10"
-                    android:layout_marginBottom="@dimen/define_dimen_5">
-
-
-                    <LinearLayout
-                        android:id="@+id/layout_view_all_popular"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="@dimen/define_dimen_5"
-                        tools:ignore="RelativeOverlap">
-
-                    </LinearLayout>
-                </RelativeLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerPlaylist"

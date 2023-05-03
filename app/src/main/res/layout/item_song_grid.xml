@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/textartist"
                 android:textSize="@dimen/text_size_xsmall"
-                android:textStyle="italic" />
+                android:textStyle="normal" />
 
         </LinearLayout>
     </LinearLayout>

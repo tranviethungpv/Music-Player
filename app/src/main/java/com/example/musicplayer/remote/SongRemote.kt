@@ -65,10 +65,9 @@ class SongRemote {
     fun getSongByArtist(name: String): MutableLiveData<ArrayList<Song>> {
         val songLiveData = MutableLiveData<ArrayList<Song>>()
         val docRef = db.collection("songs")
-        val songs: ArrayList<Song> = ArrayList()
-        var hasSong = false
-
-        docRef.get()
+        val songs: MutableList<Song> = mutableListOf()
+        docRef.whereEqualTo("artist", name)
+            .get()
             .addOnSuccessListener { result ->
                 for (snapshot in result) {
                     val song = snapshot.toObject(Song::class.java)
@@ -77,26 +76,13 @@ class SongRemote {
 
                     fileRef.downloadUrl
                         .addOnSuccessListener { uri ->
-                            if (GlobalFunction.getTextSearch(name).lowercase(Locale.ROOT).let {
-                                    GlobalFunction.getTextSearch(song.artist.toString())
-                                        .lowercase(Locale.ROOT).trim()
-                                        .contains(
-                                            it.trim()
-                                        )
-                                }
-                            ) {
-                                song.url = uri.toString()
-                                songs.add(song)
-                                hasSong = true
-                                songLiveData.value = ArrayList(songs)
-                            }
+                            song.url = uri.toString()
+                            songs.add(song)
+                            songLiveData.value = ArrayList(songs)
                         }
                         .addOnFailureListener { exception ->
                             Log.d(TAG, "getDownloadUrl failed with ", exception)
                         }
-                }
-                if (!hasSong) {
-                    songLiveData.value = ArrayList()
                 }
             }
             .addOnFailureListener { exception ->
