@@ -1,4 +1,4 @@
-package com.example.musicplayer.activity.adapter
+package com.example.musicplayer.view.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -9,9 +9,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.musicplayer.R
+import com.example.musicplayer.listener.ISongClickListener
 import com.example.musicplayer.model.Song
 
-class SongSearchAdapter(private var listSong: MutableList<Song>) :
+class SongSearchAdapter(private var listSong: MutableList<Song>, private val songClickListener: ISongClickListener) :
     RecyclerView.Adapter<SongSearchAdapter.SongViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder {
@@ -19,16 +20,18 @@ class SongSearchAdapter(private var listSong: MutableList<Song>) :
         return SongViewHolder(itemView)
     }
 
-    override fun getItemCount(): Int {
-        return listSong.size
-    }
-
     override fun onBindViewHolder(holder: SongViewHolder, position: Int) {
         val currentItem = listSong[position]
         holder.title.text = currentItem.title
         holder.artist.text = currentItem.artist
         Glide.with(holder.itemView.context).load(currentItem.image).into(holder.image)
+        holder.itemView.setOnClickListener { songClickListener.onSongClick(currentItem) }
     }
+
+    override fun getItemCount(): Int {
+        return listSong.size
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     fun clear() {
         listSong.clear()

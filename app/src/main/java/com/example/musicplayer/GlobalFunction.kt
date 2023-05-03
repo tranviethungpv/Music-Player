@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.content.ContextCompat
 import com.example.musicplayer.service.MusicService
+import java.text.Normalizer
+import java.util.regex.Pattern
 
 class GlobalFunction {
     companion object {
@@ -13,7 +15,7 @@ class GlobalFunction {
             musicService.putExtra(Constant.SONG_POSITION, songPosition)
             ContextCompat.startForegroundService(ctx, musicService)
         }
-        fun getTextSearch(input: String?): String? {
+        fun getTextSearch(input: String?): String {
             val nfdNormalizedString = Normalizer.normalize(input, Normalizer.Form.NFD)
             val pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+")
             return pattern.matcher(nfdNormalizedString).replaceAll("")

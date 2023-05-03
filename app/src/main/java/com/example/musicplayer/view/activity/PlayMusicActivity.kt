@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.musicplayer.R
-import com.example.musicplayer.view.fragment.HomeFragment
 import com.example.musicplayer.view.fragment.PlaySongFragment
 
 class PlayMusicActivity : AppCompatActivity() {

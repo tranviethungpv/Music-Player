@@ -5,18 +5,6 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/layout_toolbar" />
-
-    <me.relex.circleindicator.CircleIndicator3
-        android:id="@+id/indicator_3"
-        android:layout_width="62dp"
-        android:layout_height="@dimen/define_dimen_30"
-        android:layout_gravity="center"
-        app:ci_drawable="@color/colorAccent"
-        app:ci_drawable_unselected="@color/black_overlay" />
-
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"

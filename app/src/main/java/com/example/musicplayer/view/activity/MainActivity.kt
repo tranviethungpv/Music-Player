@@ -5,18 +5,53 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.musicplayer.R
 import com.example.musicplayer.view.fragment.HomeFragment
+import com.example.musicplayer.view.fragment.NoticeMusic
+import com.example.musicplayer.view.fragment.Setting
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationBarView
 
 class MainActivity : AppCompatActivity() {
+    private var bottomNavigationView: BottomNavigationView? = null
+
+    private val homeFragment = HomeFragment()
+    private val settingsFragment = Setting()
+    private val myMusicFragment = NoticeMusic()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        openHomeScreen()
+        //openHomeScreen()
+        bottomNavigationView = findViewById(R.id.bottom_navigation)
+        supportFragmentManager.beginTransaction().replace(R.id.container, homeFragment)
+            .commit()
+        val badgeDrawable = bottomNavigationView!!.getOrCreateBadge(R.id.mymusic)
+        badgeDrawable.isVisible = true
+        badgeDrawable.number = 999
+        bottomNavigationView!!.setOnItemSelectedListener(NavigationBarView.OnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.container, homeFragment).commit()
+                    return@OnItemSelectedListener true
+                }
+                R.id.mymusic -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.container, myMusicFragment).commit()
+                    return@OnItemSelectedListener true
+                }
+                R.id.settings -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.container, settingsFragment).commit()
+                    return@OnItemSelectedListener true
+                }
+            }
+            false
+        })
     }
     private fun openHomeScreen() {
         replaceFragment(HomeFragment())
     }
     private fun replaceFragment(fragment: Fragment?) {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.content_frame, fragment!!).commitAllowingStateLoss()
+        transaction.replace(R.id.container, fragment!!).commitAllowingStateLoss()
     }
 }

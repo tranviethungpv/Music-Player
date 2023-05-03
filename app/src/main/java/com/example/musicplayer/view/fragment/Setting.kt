@@ -1,4 +1,4 @@
-package com.example.musicplayer.views
+package com.example.musicplayer.view.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater

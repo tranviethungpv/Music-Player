@@ -77,13 +77,13 @@ class SongRemote {
 
                     fileRef.downloadUrl
                         .addOnSuccessListener { uri ->
-                            if (GlobalFunction.getTextSearch(hint)?.lowercase(Locale.ROOT)?.let {
+                            if (GlobalFunction.getTextSearch(hint).lowercase(Locale.ROOT).let {
                                     GlobalFunction.getTextSearch(song.title.toString())
-                                        ?.lowercase(Locale.ROOT)?.trim()
-                                        ?.contains(
+                                        .lowercase(Locale.ROOT).trim()
+                                        .contains(
                                             it.trim()
                                         )
-                                } == true
+                                }
                             ) {
                                 song.url = uri.toString()
                                 songs.add(song)
