@@ -23,7 +23,7 @@ import com.example.musicplayer.view.activity.PlayMusicActivity
 import com.example.musicplayer.view.adapter.SongSearchAdapter
 import com.example.musicplayer.viewmodel.SongViewModel
 
-class PlayListMusic(nameArtist: String): Fragment() {
+class PlayListMusic : Fragment() {
     private lateinit var songSearchAdapter: SongSearchAdapter
     private lateinit var recyclerPlaylist: RecyclerView
     private lateinit var songViewModel: SongViewModel

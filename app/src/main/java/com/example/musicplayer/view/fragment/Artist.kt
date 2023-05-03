@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musicplayer.R
@@ -38,7 +37,7 @@ class Artist : Fragment() {
             artistAdapter = ArtistAdapter(it, object : IArtistClickListener {
                 override fun onArtistClick(artist: Artist) {
                     selectedArtistName = artist.name.toString()
-                    showPlayList(artist.name.toString())
+                    showPlayList()
                 }
             })
             recyclerViewArtist.adapter = artistAdapter
@@ -47,8 +46,8 @@ class Artist : Fragment() {
         return fragmentArtist.root
     }
 
-    fun showPlayList(nameArtist: String) {
-        replaceFragment(PlayListMusic(nameArtist))
+    fun showPlayList() {
+        replaceFragment(PlayListMusic())
     }
     private fun replaceFragment(fragment: Fragment?) {
         val transaction = parentFragmentManager.beginTransaction()
