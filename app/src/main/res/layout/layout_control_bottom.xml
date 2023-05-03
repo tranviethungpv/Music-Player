@@ -10,8 +10,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_song"
-        android:layout_width="@dimen/define_dimen_40"
-        android:layout_height="@dimen/define_dimen_40"
+        android:layout_width="@dimen/define_dimen_50"
+        android:layout_height="@dimen/define_dimen_50"
         android:layout_centerVertical="true"
         android:src="@drawable/image_no_available"
         tools:ignore="ImageContrastCheck" />
@@ -59,8 +59,8 @@
 
         <ImageView
             android:id="@+id/img_previous"
-            android:layout_width="@dimen/define_dimen_24"
-            android:layout_height="@dimen/define_dimen_24"
+            android:layout_width="@dimen/define_dimen_30"
+            android:layout_height="@dimen/define_dimen_30"
             android:backgroundTint="@color/colorPrimaryDark"
             android:src="@drawable/ic_previous_black"
             tools:ignore="ContentDescription"
@@ -68,8 +68,8 @@
 
         <ImageView
             android:id="@+id/img_play"
-            android:layout_width="@dimen/define_dimen_30"
-            android:layout_height="@dimen/define_dimen_30"
+            android:layout_width="@dimen/define_dimen_35"
+            android:layout_height="@dimen/define_dimen_35"
             android:layout_marginStart="@dimen/define_dimen_10"
             android:layout_marginEnd="@dimen/define_dimen_10"
             android:src="@drawable/ic_play_black"
@@ -77,8 +77,8 @@
 
         <ImageView
             android:id="@+id/img_next"
-            android:layout_width="@dimen/define_dimen_24"
-            android:layout_height="@dimen/define_dimen_24"
+            android:layout_width="@dimen/define_dimen_30"
+            android:layout_height="@dimen/define_dimen_30"
             android:layout_marginEnd="@dimen/define_dimen_14"
             android:src="@drawable/ic_next_black"
             tools:ignore="ContentDescription"
@@ -86,8 +86,8 @@
 
         <ImageView
             android:id="@+id/img_close"
-            android:layout_width="@dimen/define_dimen_24"
-            android:layout_height="@dimen/define_dimen_24"
+            android:layout_width="@dimen/define_dimen_30"
+            android:layout_height="@dimen/define_dimen_30"
             android:src="@drawable/ic_close_black"
             tools:ignore="ContentDescription" />
     </LinearLayout>
