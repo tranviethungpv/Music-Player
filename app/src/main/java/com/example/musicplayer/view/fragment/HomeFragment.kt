@@ -16,29 +16,28 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.musicplayer.Constant
 import com.example.musicplayer.GlobalFunction
-import com.example.musicplayer.view.adapter.SongSearchAdapter
+import com.example.musicplayer.adapter.SongSearchAdapter
 import com.example.musicplayer.databinding.FragmentHomeBinding
 import com.example.musicplayer.listener.ISongClickListener
 import com.example.musicplayer.model.Song
 import com.example.musicplayer.service.MusicService
 import com.example.musicplayer.view.activity.PlayMusicActivity
-import com.example.musicplayer.view.adapter.ListSongAdapter
-import com.example.musicplayer.viewmodel.SongViewModel
+import com.example.musicplayer.adapter.ListSongAdapter
+import com.example.musicplayer.view.viewmodel.SongViewModel
 
 class HomeFragment : Fragment() {
     private lateinit var songAdapter: ListSongAdapter
     private lateinit var recyclerViewListSong: RecyclerView
     private lateinit var songViewModel: SongViewModel
     private lateinit var fragmentHomeBinding: FragmentHomeBinding
-    private lateinit var imgSearch:ImageView
+    private lateinit var imgSearch: ImageView
     private lateinit var hint: TextView
-    private lateinit var layoutSearch:RecyclerView
-    private lateinit var viewFlipper : ViewFlipper
+    private lateinit var layoutSearch: RecyclerView
+    private lateinit var viewFlipper: ViewFlipper
     private lateinit var songListSearch: SongSearchAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -48,7 +47,8 @@ class HomeFragment : Fragment() {
         imgSearch = fragmentHomeBinding.imgSearch
         layoutSearch = fragmentHomeBinding.layoutSearch
         layoutSearch.layoutManager = GridLayoutManager(activity, 1)
-        val dividerDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.HORIZONTAL)
+        val dividerDecoration =
+            DividerItemDecoration(requireContext(), DividerItemDecoration.HORIZONTAL)
         layoutSearch.addItemDecoration(dividerDecoration)
         viewFlipper = fragmentHomeBinding.viewflipper
         actionViewFlipper()
@@ -57,7 +57,7 @@ class HomeFragment : Fragment() {
 
             searchSongByHint(hint.text.toString())
         }
-        fragmentHomeBinding.playall.setOnClickListener{
+        fragmentHomeBinding.playall.setOnClickListener {
             songViewModel = ViewModelProvider(this)[SongViewModel::class.java]
             songViewModel.allSongs.observe(viewLifecycleOwner) {
                 MusicService.clearListSongPlaying()
@@ -70,7 +70,7 @@ class HomeFragment : Fragment() {
         return fragmentHomeBinding.root
     }
 
-    private fun renderListSong(){
+    private fun renderListSong() {
         recyclerViewListSong = fragmentHomeBinding.recyclerListSongs
         recyclerViewListSong.layoutManager = GridLayoutManager(activity, 2)
 
@@ -102,7 +102,7 @@ class HomeFragment : Fragment() {
     private fun actionViewFlipper() {
         songViewModel = ViewModelProvider(this)[SongViewModel::class.java]
         songViewModel.allSongs.observe(viewLifecycleOwner) {
-            for(song in it){
+            for (song in it) {
                 val imageView = ImageView(requireContext())
                 Glide.with(requireContext()).load(song.image.toString()).into(imageView)
                 imageView.scaleType = ImageView.ScaleType.FIT_XY
@@ -117,6 +117,7 @@ class HomeFragment : Fragment() {
         viewFlipper.setInAnimation(requireContext(), android.R.anim.fade_in)
         viewFlipper.setOutAnimation(requireContext(), android.R.anim.fade_out)
     }
+
     private fun searchSongByHint(strKey: String) {
         if (strKey.isEmpty() || strKey.trim() == "") {
             layoutSearch.visibility = View.GONE

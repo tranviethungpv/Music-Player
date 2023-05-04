@@ -1,4 +1,4 @@
-package com.example.musicplayer.view.adapter
+package com.example.musicplayer.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -13,11 +13,13 @@ import com.example.musicplayer.listener.IArtistClickListener
 import com.example.musicplayer.model.Artist
 
 
-class ArtistAdapter(private var listArtist: ArrayList<Artist>, private val artistClickListener: IArtistClickListener) :
-    RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder>() {
+class ArtistAdapter(
+    private var listArtist: ArrayList<Artist>, private val artistClickListener: IArtistClickListener
+) : RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArtistViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_artist_grid, parent, false)
+        val itemView =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_artist_grid, parent, false)
         return ArtistViewHolder(itemView)
     }
 
@@ -33,7 +35,8 @@ class ArtistAdapter(private var listArtist: ArrayList<Artist>, private val artis
     }
 
     class ArtistViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val itemArtistGridBinding: ItemArtistGridBinding = ItemArtistGridBinding.bind(itemView)
+        private val itemArtistGridBinding: ItemArtistGridBinding =
+            ItemArtistGridBinding.bind(itemView)
 
         val artist: TextView = itemArtistGridBinding.textartist
         val image: ImageView = itemArtistGridBinding.imageThumbnail

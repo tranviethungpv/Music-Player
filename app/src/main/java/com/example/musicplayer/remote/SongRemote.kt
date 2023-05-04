@@ -38,27 +38,23 @@ class SongRemote {
         val songLiveData = MutableLiveData<ArrayList<Song>>()
         val docRef = db.collection("songs")
         val songs: MutableList<Song> = mutableListOf()
-        docRef.get()
-            .addOnSuccessListener { result ->
-                for (snapshot in result) {
-                    val song = snapshot.toObject(Song::class.java)
+        docRef.get().addOnSuccessListener { result ->
+            for (snapshot in result) {
+                val song = snapshot.toObject(Song::class.java)
 
-                    val fileRef = storage.reference.child("songs/" + song.filename.toString())
+                val fileRef = storage.reference.child("songs/" + song.filename.toString())
 
-                    fileRef.downloadUrl
-                        .addOnSuccessListener { uri ->
-                            song.url = uri.toString()
-                            songs.add(song)
-                            songLiveData.value = ArrayList(songs)
-                        }
-                        .addOnFailureListener { exception ->
-                            Log.d(TAG, "getDownloadUrl failed with ", exception)
-                        }
+                fileRef.downloadUrl.addOnSuccessListener { uri ->
+                    song.url = uri.toString()
+                    songs.add(song)
+                    songLiveData.value = ArrayList(songs)
+                }.addOnFailureListener { exception ->
+                    Log.d(TAG, "getDownloadUrl failed with ", exception)
                 }
             }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "get failed with ", exception)
-            }
+        }.addOnFailureListener { exception ->
+            Log.d(TAG, "get failed with ", exception)
+        }
         return songLiveData
     }
 
@@ -66,28 +62,23 @@ class SongRemote {
         val songLiveData = MutableLiveData<ArrayList<Song>>()
         val docRef = db.collection("songs")
         val songs: MutableList<Song> = mutableListOf()
-        docRef.whereEqualTo("artist", name)
-            .get()
-            .addOnSuccessListener { result ->
-                for (snapshot in result) {
-                    val song = snapshot.toObject(Song::class.java)
+        docRef.whereEqualTo("artist", name).get().addOnSuccessListener { result ->
+            for (snapshot in result) {
+                val song = snapshot.toObject(Song::class.java)
 
-                    val fileRef = storage.reference.child("songs/" + song.filename.toString())
+                val fileRef = storage.reference.child("songs/" + song.filename.toString())
 
-                    fileRef.downloadUrl
-                        .addOnSuccessListener { uri ->
-                            song.url = uri.toString()
-                            songs.add(song)
-                            songLiveData.value = ArrayList(songs)
-                        }
-                        .addOnFailureListener { exception ->
-                            Log.d(TAG, "getDownloadUrl failed with ", exception)
-                        }
+                fileRef.downloadUrl.addOnSuccessListener { uri ->
+                    song.url = uri.toString()
+                    songs.add(song)
+                    songLiveData.value = ArrayList(songs)
+                }.addOnFailureListener { exception ->
+                    Log.d(TAG, "getDownloadUrl failed with ", exception)
                 }
             }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "get failed with ", exception)
-            }
+        }.addOnFailureListener { exception ->
+            Log.d(TAG, "get failed with ", exception)
+        }
         return songLiveData
     }
 
@@ -97,40 +88,34 @@ class SongRemote {
         val songs: ArrayList<Song> = ArrayList()
         var hasSong = false
 
-        docRef.get()
-            .addOnSuccessListener { result ->
-                for (snapshot in result) {
-                    val song = snapshot.toObject(Song::class.java)
+        docRef.get().addOnSuccessListener { result ->
+            for (snapshot in result) {
+                val song = snapshot.toObject(Song::class.java)
 
-                    val fileRef = storage.reference.child("songs/" + song.filename.toString())
+                val fileRef = storage.reference.child("songs/" + song.filename.toString())
 
-                    fileRef.downloadUrl
-                        .addOnSuccessListener { uri ->
-                            if (GlobalFunction.getTextSearch(hint).lowercase(Locale.ROOT).let {
-                                    GlobalFunction.getTextSearch(song.title.toString())
-                                        .lowercase(Locale.ROOT).trim()
-                                        .contains(
-                                            it.trim()
-                                        )
-                                }
-                            ) {
-                                song.url = uri.toString()
-                                songs.add(song)
-                                hasSong = true
-                                songLiveData.value = ArrayList(songs)
-                            }
-                        }
-                        .addOnFailureListener { exception ->
-                            Log.d(TAG, "getDownloadUrl failed with ", exception)
-                        }
-                }
-                if (!hasSong) {
-                    songLiveData.value = ArrayList()
+                fileRef.downloadUrl.addOnSuccessListener { uri ->
+                    if (GlobalFunction.getTextSearch(hint).lowercase(Locale.ROOT).let {
+                            GlobalFunction.getTextSearch(song.title.toString())
+                                .lowercase(Locale.ROOT).trim().contains(
+                                    it.trim()
+                                )
+                        }) {
+                        song.url = uri.toString()
+                        songs.add(song)
+                        hasSong = true
+                        songLiveData.value = ArrayList(songs)
+                    }
+                }.addOnFailureListener { exception ->
+                    Log.d(TAG, "getDownloadUrl failed with ", exception)
                 }
             }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "get failed with ", exception)
+            if (!hasSong) {
+                songLiveData.value = ArrayList()
             }
+        }.addOnFailureListener { exception ->
+            Log.d(TAG, "get failed with ", exception)
+        }
         return songLiveData
     }
 

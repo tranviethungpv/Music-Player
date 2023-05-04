@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
-            type="com.example.musicplayer.viewmodel.SongViewModel" />
+            type="com.example.musicplayer.view.viewmodel.SongViewModel" />
     </data>
 
     <LinearLayout
@@ -17,9 +18,7 @@
         android:layout_marginEnd="@dimen/define_dimen_10"
 
 
-
-        android:orientation="vertical"
-        android:layout_marginRight="@dimen/define_dimen_10">
+        android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -43,9 +42,9 @@
                 android:id="@+id/texttitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/texttitle"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/text_size_small"
-                android:text="@string/texttitle" />
+                android:textSize="@dimen/text_size_small" />
 
             <LinearLayout
                 android:layout_width="match_parent"

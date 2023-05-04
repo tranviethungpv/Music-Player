@@ -13,22 +13,22 @@ import com.example.musicplayer.R
 import com.example.musicplayer.databinding.FragmentNewBinding
 import com.example.musicplayer.listener.IArtistClickListener
 import com.example.musicplayer.model.Artist
-import com.example.musicplayer.view.adapter.ArtistAdapter
-import com.example.musicplayer.viewmodel.ArtistViewModel
+import com.example.musicplayer.adapter.ArtistAdapter
+import com.example.musicplayer.view.viewmodel.ArtistViewModel
 
 class Artist : Fragment() {
     private lateinit var recyclerViewArtist: RecyclerView
     private lateinit var artistViewModel: ArtistViewModel
     private lateinit var artistAdapter: ArtistAdapter
     private lateinit var fragmentArtist: FragmentNewBinding
-    companion object{
+
+    companion object {
         lateinit var selectedArtistName: String
     }
+
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_new, container, false)
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
         fragmentArtist = FragmentNewBinding.inflate(inflater, container, false)
         recyclerViewArtist = fragmentArtist.recyclerListArtist
         recyclerViewArtist.layoutManager = GridLayoutManager(activity, 2)
@@ -49,6 +49,7 @@ class Artist : Fragment() {
     fun showPlayList() {
         replaceFragment(PlayListMusic())
     }
+
     private fun replaceFragment(fragment: Fragment?) {
         val transaction = parentFragmentManager.beginTransaction()
         if (fragment != null) {

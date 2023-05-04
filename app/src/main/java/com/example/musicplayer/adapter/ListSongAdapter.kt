@@ -1,6 +1,5 @@
-package com.example.musicplayer.view.adapter
+package com.example.musicplayer.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,16 +7,23 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.musicplayer.R
 import com.example.musicplayer.listener.ISongClickListener
+import com.example.musicplayer.R
+import com.example.musicplayer.databinding.ItemSongGridBinding
 import com.example.musicplayer.model.Song
 
-class SongSearchAdapter(private var listSong: MutableList<Song>, private val songClickListener: ISongClickListener) :
-    RecyclerView.Adapter<SongSearchAdapter.SongViewHolder>() {
+class ListSongAdapter(
+    private var listSong: ArrayList<Song>, private val songClickListener: ISongClickListener
+) : RecyclerView.Adapter<ListSongAdapter.SongViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.adapter_listsongsearch, parent, false)
+        val itemView =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_song_grid, parent, false)
         return SongViewHolder(itemView)
+    }
+
+    override fun getItemCount(): Int {
+        return listSong.size
     }
 
     override fun onBindViewHolder(holder: SongViewHolder, position: Int) {
@@ -28,18 +34,11 @@ class SongSearchAdapter(private var listSong: MutableList<Song>, private val son
         holder.itemView.setOnClickListener { songClickListener.onSongClick(currentItem) }
     }
 
-    override fun getItemCount(): Int {
-        return listSong.size
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun clear() {
-        listSong.clear()
-        notifyDataSetChanged()
-    }
     class SongViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val title: TextView = itemView.findViewById(R.id.tv_song_name)
-        val artist: TextView = itemView.findViewById(R.id.tv_artist)
-        val image: ImageView = itemView.findViewById(R.id.img_song)
+        private val itemSongGridBinding: ItemSongGridBinding = ItemSongGridBinding.bind(itemView)
+
+        val title: TextView = itemSongGridBinding.texttitle
+        val artist: TextView = itemSongGridBinding.textartist
+        val image: ImageView = itemSongGridBinding.imageThumbnail
     }
 }

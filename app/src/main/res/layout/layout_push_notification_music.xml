@@ -10,9 +10,9 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerVertical="true"
-        tools:ignore="ImageContrastCheck"
+        android:layout_marginStart="10dp"
         android:contentDescription="@string/todoNotification"
-        android:layout_marginStart="10dp"/>
+        tools:ignore="ImageContrastCheck" />
 
 
     <LinearLayout
@@ -21,9 +21,9 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="@dimen/define_dimen_10"
         android:layout_marginEnd="@dimen/define_dimen_10"
-        android:orientation="vertical"
-        android:layout_toEndOf="@+id/img_song"
         android:layout_toStartOf="@+id/layout_button"
+        android:layout_toEndOf="@+id/img_song"
+        android:orientation="vertical"
         tools:ignore="UselessParent">
 
 
@@ -63,7 +63,8 @@
             android:layout_height="@dimen/define_dimen_30"
             android:backgroundTint="@color/colorPrimaryDark"
             android:src="@drawable/ic_previous_gray"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"
+            tools:targetApi="lollipop" />
 
         <ImageView
             android:id="@+id/img_play"

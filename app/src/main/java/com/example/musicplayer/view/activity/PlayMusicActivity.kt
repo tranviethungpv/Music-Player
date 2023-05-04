@@ -12,9 +12,11 @@ class PlayMusicActivity : AppCompatActivity() {
         setContentView(R.layout.activity_play_music)
         openPlaySongScreen()
     }
+
     private fun openPlaySongScreen() {
         replaceFragment(PlaySongFragment())
     }
+
     private fun replaceFragment(fragment: Fragment?) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.content_frame, fragment!!).commitAllowingStateLoss()

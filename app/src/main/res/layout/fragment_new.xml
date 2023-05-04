@@ -3,17 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="20dp"
-    >
+    android:layout_marginTop="20dp">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
+        android:layout_marginStart="@dimen/define_dimen_5"
+        android:text="@string/artists"
         android:textSize="@dimen/text_size_normal"
-        android:text=" Artists"
-        android:layout_marginStart="@dimen/define_dimen_5">
+        android:textStyle="bold"
+        tools:ignore="VisualLintOverlap">
 
     </TextView>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,13 +38,12 @@
                     android:orientation="vertical">
 
 
-
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/viewpager_2"
-                        android:layout_marginStart="@dimen/define_dimen_10"
-                        android:layout_marginEnd="@dimen/define_dimen_10"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/define_dimen_10"
+                        android:layout_marginEnd="@dimen/define_dimen_10" />
 
                 </LinearLayout>
 
@@ -60,7 +61,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:gravity="center"
                         android:orientation="vertical"
@@ -75,7 +75,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/define_dimen_10"
-                    android:layout_marginLeft="@dimen/define_dimen_10"
                     android:layout_marginBottom="@dimen/define_dimen_10"
                     android:focusable="false"
                     android:nestedScrollingEnabled="false"

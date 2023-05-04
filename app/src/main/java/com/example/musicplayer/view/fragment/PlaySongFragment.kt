@@ -31,17 +31,15 @@ class PlaySongFragment : Fragment(), View.OnClickListener {
             handleMusicAction()
         }
     }
+
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = FragmentPlaySongBinding.inflate(inflater, container, false)
 
         if (activity != null) {
             LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(
-                mBroadcastReceiver,
-                IntentFilter(Constant.CHANGE_LISTENER)
+                mBroadcastReceiver, IntentFilter(Constant.CHANGE_LISTENER)
             )
         }
         initControl()
@@ -51,6 +49,7 @@ class PlaySongFragment : Fragment(), View.OnClickListener {
 
         return binding?.root
     }
+
     override fun onDestroy() {
         super.onDestroy()
         timeCalculator?.cancel()
@@ -59,6 +58,7 @@ class PlaySongFragment : Fragment(), View.OnClickListener {
             LocalBroadcastManager.getInstance(it).unregisterReceiver(mBroadcastReceiver)
         }
     }
+
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.img_previous -> clickOnPrevButton()
@@ -66,6 +66,7 @@ class PlaySongFragment : Fragment(), View.OnClickListener {
             R.id.img_next -> clickOnNextButton()
         }
     }
+
     private fun initControl() {
         timeCalculator = Timer()
 
@@ -73,8 +74,7 @@ class PlaySongFragment : Fragment(), View.OnClickListener {
         binding?.imgPlay?.setOnClickListener(this)
         binding?.imgNext?.setOnClickListener(this)
 
-        binding?.seekbar?.setOnSeekBarChangeListener(object :
-            SeekBar.OnSeekBarChangeListener {
+        binding?.seekbar?.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onStopTrackingTouch(seekBar: SeekBar) {
                 MusicService.mediaPlayer?.seekTo(seekBar.progress)
             }
@@ -84,6 +84,7 @@ class PlaySongFragment : Fragment(), View.OnClickListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {}
         })
     }
+
     private fun showInfoSong() {
         if (MusicService.listSongPlaying.isEmpty()) {
             return
@@ -97,6 +98,7 @@ class PlaySongFragment : Fragment(), View.OnClickListener {
             )
         }
     }
+
     @Suppress("DEPRECATION")
     private fun handleMusicAction() {
         if (Constant.CANCEL_NOTIFICATION == MusicService.songAction) {
@@ -131,25 +133,21 @@ class PlaySongFragment : Fragment(), View.OnClickListener {
             }
         }
     }
+
     private fun startAnimationPlayMusic() {
         val runnable = Runnable {
-            binding?.imgSong?.animate()
-                ?.rotationBy(360f)
-                ?.withEndAction(this@PlaySongFragment::startAnimationPlayMusic)
-                ?.setDuration(15000)
-                ?.setInterpolator(LinearInterpolator())
-                ?.start()
+            binding?.imgSong?.animate()?.rotationBy(360f)
+                ?.withEndAction(this@PlaySongFragment::startAnimationPlayMusic)?.setDuration(15000)
+                ?.setInterpolator(LinearInterpolator())?.start()
         }
-        binding?.imgSong?.animate()
-            ?.rotationBy(360f)
-            ?.withEndAction(runnable)
-            ?.setDuration(15000)
-            ?.setInterpolator(LinearInterpolator())
-            ?.start()
+        binding?.imgSong?.animate()?.rotationBy(360f)?.withEndAction(runnable)?.setDuration(15000)
+            ?.setInterpolator(LinearInterpolator())?.start()
     }
+
     private fun stopAnimationPlayMusic() {
         binding?.imgSong?.animate()?.cancel()
     }
+
     private fun showSeekBar() {
         Timer().schedule(object : TimerTask() {
             override fun run() {
@@ -157,7 +155,8 @@ class PlaySongFragment : Fragment(), View.OnClickListener {
                     if (MusicService.mediaPlayer == null) {
                         return@runOnUiThread
                     }
-                    binding?.tvTimeCurrent?.text = getTime(MusicService.mediaPlayer!!.currentPosition)
+                    binding?.tvTimeCurrent?.text =
+                        getTime(MusicService.mediaPlayer!!.currentPosition)
                     binding?.tvTimeMax?.text = getTime(MusicService.lengthSong)
                     binding?.seekbar?.max = MusicService.lengthSong
                     binding?.seekbar?.progress = MusicService.mediaPlayer!!.currentPosition
@@ -165,6 +164,7 @@ class PlaySongFragment : Fragment(), View.OnClickListener {
             }
         }, 0, 1000)
     }
+
     private fun showStatusButtonPlay() {
         if (MusicService.isPlaying) {
             binding?.imgPlay?.setImageResource(R.drawable.ic_pause_black)
@@ -172,19 +172,29 @@ class PlaySongFragment : Fragment(), View.OnClickListener {
             binding?.imgPlay?.setImageResource(R.drawable.ic_play_black)
         }
     }
+
     private fun clickOnPrevButton() {
-        GlobalFunction.startMusicService(requireContext(), Constant.PREVIOUS, MusicService.songPosition)
+        GlobalFunction.startMusicService(
+            requireContext(), Constant.PREVIOUS, MusicService.songPosition
+        )
     }
+
     private fun clickOnNextButton() {
         GlobalFunction.startMusicService(requireContext(), Constant.NEXT, MusicService.songPosition)
     }
+
     private fun clickOnPlayButton() {
         if (MusicService.mediaPlayer?.isPlaying == true) {
-            GlobalFunction.startMusicService(requireContext(), Constant.PAUSE, MusicService.songPosition)
+            GlobalFunction.startMusicService(
+                requireContext(), Constant.PAUSE, MusicService.songPosition
+            )
         } else {
-            GlobalFunction.startMusicService(requireContext(), Constant.RESUME, MusicService.songPosition)
+            GlobalFunction.startMusicService(
+                requireContext(), Constant.RESUME, MusicService.songPosition
+            )
         }
     }
+
     fun getTime(millis: Int): String {
         val second = (millis / 1000 % 60).toLong()
         val minute = (millis / (1000 * 60)).toLong()

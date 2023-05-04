@@ -22,7 +22,6 @@ import com.example.musicplayer.GlobalFunction.Companion.getCircularBitmap
 import com.example.musicplayer.R
 import com.example.musicplayer.model.Song
 import com.example.musicplayer.view.activity.PlayMusicActivity
-import kotlin.properties.Delegates
 
 class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
     companion object {
@@ -202,11 +201,9 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
         remoteViews.setTextViewText(R.id.tv_artist, song.artist)
         // Load the image using Glide
         try {
-            val bitmap: Bitmap = Glide.with(applicationContext)
-                .asBitmap()
-                .load(song.image.toString())
-                .submit(512, 512)
-                .get()
+            val bitmap: Bitmap =
+                Glide.with(applicationContext).asBitmap().load(song.image.toString())
+                    .submit(512, 512).get()
             remoteViews.setImageViewBitmap(R.id.img_song, getCircularBitmap(bitmap))
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
@@ -233,37 +230,29 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
 
         // Set listener
         remoteViews.setOnClickPendingIntent(
-            R.id.img_previous,
-            GlobalFunction.openMusicReceiver(this, Constant.PREVIOUS)
+            R.id.img_previous, GlobalFunction.openMusicReceiver(this, Constant.PREVIOUS)
         )
         remoteViews.setOnClickPendingIntent(
-            R.id.img_next,
-            GlobalFunction.openMusicReceiver(this, Constant.NEXT)
+            R.id.img_next, GlobalFunction.openMusicReceiver(this, Constant.NEXT)
         )
         if (isPlaying) {
             remoteViews.setImageViewResource(R.id.img_play, R.drawable.ic_pause_gray)
             remoteViews.setOnClickPendingIntent(
-                R.id.img_play,
-                GlobalFunction.openMusicReceiver(this, Constant.PAUSE)
+                R.id.img_play, GlobalFunction.openMusicReceiver(this, Constant.PAUSE)
             )
         } else {
             remoteViews.setImageViewResource(R.id.img_play, R.drawable.ic_play_gray)
             remoteViews.setOnClickPendingIntent(
-                R.id.img_play,
-                GlobalFunction.openMusicReceiver(this, Constant.RESUME)
+                R.id.img_play, GlobalFunction.openMusicReceiver(this, Constant.RESUME)
             )
         }
         remoteViews.setOnClickPendingIntent(
-            R.id.img_close,
-            GlobalFunction.openMusicReceiver(this, Constant.CANCEL_NOTIFICATION)
+            R.id.img_close, GlobalFunction.openMusicReceiver(this, Constant.CANCEL_NOTIFICATION)
         )
 
         val notification = NotificationCompat.Builder(applicationContext, "channel_music_player_id")
-            .setSmallIcon(R.drawable.ic_small_push_notification)
-            .setContentIntent(pendingIntent)
-            .setCustomContentView(remoteViews)
-            .setSound(null)
-            .build()
+            .setSmallIcon(R.drawable.ic_small_push_notification).setContentIntent(pendingIntent)
+            .setCustomContentView(remoteViews).setSound(null).build()
 
         startForeground(1, notification)
     }

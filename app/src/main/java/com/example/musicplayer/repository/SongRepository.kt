@@ -10,11 +10,13 @@ class SongRepository {
     fun getAllSong(): MutableLiveData<ArrayList<Song>> {
         return songRemote.getAllSong()
     }
+
     fun getSongByHint(hint: String): MutableLiveData<ArrayList<Song>> {
-       // val hint = textView.text.toString()
+        // val hint = textView.text.toString()
         return songRemote.getSongByHint(hint)
     }
-    fun getSongbyArtist(name:String):MutableLiveData<ArrayList<Song>>{
+
+    fun getSongByArtist(name: String): MutableLiveData<ArrayList<Song>> {
         return songRemote.getSongByArtist(name)
     }
 }

@@ -76,8 +76,7 @@
                     android:layout_alignParentEnd="true"
                     android:text="@string/label_start_time"
                     android:textColor="@color/colorPrimaryDark"
-                    tools:ignore="RelativeOverlap"
-                    android:layout_alignParentRight="true" />
+                    tools:ignore="RelativeOverlap" />
             </RelativeLayout>
         </LinearLayout>
 

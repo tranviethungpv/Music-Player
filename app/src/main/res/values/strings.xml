@@ -18,4 +18,6 @@
     <string name="About">About</string>
     <string name="music">Musics</string>
     <string name="todoNotification">TODO</string>
+    <string name="artists">Artists</string>
+    <string name="playlist">Playlist</string>
 </resources>

@@ -23,17 +23,20 @@ class GlobalFunction {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         }
+
         fun startMusicService(ctx: Context, action: Int, songPosition: Int) {
             val musicService = Intent(ctx, MusicService::class.java)
             musicService.putExtra(Constant.MUSIC_ACTION, action)
             musicService.putExtra(Constant.SONG_POSITION, songPosition)
             ContextCompat.startForegroundService(ctx, musicService)
         }
+
         fun getTextSearch(input: String?): String {
             val nfdNormalizedString = Normalizer.normalize(input, Normalizer.Form.NFD)
             val pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+")
             return pattern.matcher(nfdNormalizedString).replaceAll("")
         }
+
         fun openMusicReceiver(ctx: Context, action: Int): PendingIntent {
             val intent = Intent(ctx, MusicReceiver::class.java)
             intent.putExtra(Constant.MUSIC_ACTION, action)
@@ -46,6 +49,7 @@ class GlobalFunction {
 
             return PendingIntent.getBroadcast(ctx.applicationContext, action, intent, pendingFlag)
         }
+
         fun getCircularBitmap(bitmap: Bitmap): Bitmap {
             // get the bitmap width and height, and determine the radius of the circle
             val width = bitmap.width
