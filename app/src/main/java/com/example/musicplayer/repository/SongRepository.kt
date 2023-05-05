@@ -19,4 +19,7 @@ class SongRepository {
     fun getSongByArtist(name: String): MutableLiveData<ArrayList<Song>> {
         return songRemote.getSongByArtist(name)
     }
+    fun getHotSongs(): MutableLiveData<ArrayList<Song>> {
+        return songRemote.getHotSongs()
+    }
 }

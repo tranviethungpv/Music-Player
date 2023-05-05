@@ -75,7 +75,7 @@ class HomeFragment : Fragment() {
         recyclerViewListSong.layoutManager = GridLayoutManager(activity, 2)
 
         songViewModel = ViewModelProvider(this)[SongViewModel::class.java]
-        songViewModel.allSongs.observe(viewLifecycleOwner) {
+        songViewModel.getHotSongs().observe(viewLifecycleOwner) {
             songAdapter = ListSongAdapter(it, object : ISongClickListener {
                 override fun onSongClick(song: Song) {
                     playSong(song)
@@ -101,7 +101,7 @@ class HomeFragment : Fragment() {
 
     private fun actionViewFlipper() {
         songViewModel = ViewModelProvider(this)[SongViewModel::class.java]
-        songViewModel.allSongs.observe(viewLifecycleOwner) {
+        songViewModel.getHotSongs().observe(viewLifecycleOwner) {
             for (song in it) {
                 val imageView = ImageView(requireContext())
                 Glide.with(requireContext()).load(song.image.toString()).into(imageView)
