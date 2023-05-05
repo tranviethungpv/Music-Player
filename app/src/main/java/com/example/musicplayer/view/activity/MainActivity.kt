@@ -17,7 +17,7 @@ import com.example.musicplayer.model.Song
 import com.example.musicplayer.service.MusicService
 import com.example.musicplayer.view.fragment.HomeFragment
 import com.example.musicplayer.view.fragment.Artist
-import com.example.musicplayer.view.fragment.Setting
+import com.example.musicplayer.view.fragment.AboutFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private var bottomNavigationView: BottomNavigationView? = null
 
     private val homeFragment = HomeFragment()
-    private val settingsFragment = Setting()
+    private val settingsFragment = AboutFragment()
     private val myArtistFragment = Artist()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

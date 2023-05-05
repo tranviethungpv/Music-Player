@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/orange">
 
 
     <TextView
@@ -11,35 +11,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="@string/app_name"
+        android:text="@string/About"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_xnormal" />
+        android:textSize="@dimen/text_size_xxnormal" />
 
-    <LinearLayout
-        android:id="@+id/layout_play_all"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="@dimen/define_dimen_10"
-        android:background="@drawable/bg_main_shape_corner_6_border_white"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="@dimen/define_dimen_5"
-        android:visibility="gone">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_play_all_white"
-            tools:ignore="ContentDescription" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/play_all"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_xsmall" />
-    </LinearLayout>
+
 </RelativeLayout>
 

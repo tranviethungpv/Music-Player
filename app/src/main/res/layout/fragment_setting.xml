@@ -2,5 +2,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <include
+        android:id="@+id/header"
+        layout="@layout/layout_toolbar" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerAbout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/define_dimen_80"
+        android:layout_marginStart="@dimen/define_dimen_10"
+        android:layout_marginBottom="@dimen/define_dimen_10"
+        android:focusable="false"
+        android:nestedScrollingEnabled="false"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
