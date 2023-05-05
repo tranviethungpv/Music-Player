@@ -14,12 +14,10 @@ import com.example.musicplayer.model.About
 class AboutAdapter(
     private var listSong: List<About>
 ) : RecyclerView.Adapter<AboutAdapter.AboutViewHolder>() {
-    class AboutViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val itemAboutGridBinding: ItemGridAboutBinding =
-            ItemGridAboutBinding.bind(itemView)
+    class AboutViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val itemAboutGridBinding: ItemGridAboutBinding = ItemGridAboutBinding.bind(itemView)
 
-
-        val infor: TextView = itemAboutGridBinding.information
+        val info: TextView = itemAboutGridBinding.information
         val image: ImageView = itemAboutGridBinding.imgInfo
     }
 
@@ -37,7 +35,7 @@ class AboutAdapter(
     override fun onBindViewHolder(holder: AboutViewHolder, position: Int) {
         val currentItem = listSong[position]
 
-        holder.infor.text = currentItem.infor
+        holder.info.text = currentItem.info
         Glide.with(holder.itemView.context).load(currentItem.image).into(holder.image)
 
     }

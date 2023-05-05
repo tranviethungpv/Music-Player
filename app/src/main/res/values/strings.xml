@@ -20,4 +20,5 @@
     <string name="todoNotification">TODO</string>
     <string name="artists">Artists</string>
     <string name="playlist">Playlist</string>
+    <string name="information">Information</string>
 </resources>

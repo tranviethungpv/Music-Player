@@ -1,18 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <include
-        android:id="@+id/header"
-        layout="@layout/layout_toolbar" />
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="@string/About"
+        android:textSize="@dimen/text_size_normal"
+        android:textStyle="bold"
+        android:layout_marginStart="@dimen/define_dimen_10"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerAbout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="MissingConstraints,VisualLintOverlap"
+        tools:layout_editor_absoluteX="0dp">
+
+    </TextView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerAbout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/define_dimen_80"
         android:layout_marginStart="@dimen/define_dimen_10"
+        android:layout_marginTop="@dimen/define_dimen_80"
         android:layout_marginBottom="@dimen/define_dimen_10"
         android:focusable="false"
         android:nestedScrollingEnabled="false"
-        />
+        tools:targetApi="lollipop" />
 </androidx.constraintlayout.widget.ConstraintLayout>

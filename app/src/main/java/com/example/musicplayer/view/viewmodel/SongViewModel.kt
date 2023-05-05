@@ -16,6 +16,7 @@ class SongViewModel(application: Application) : AndroidViewModel(application) {
     fun getSongByArtist(name: String): MutableLiveData<ArrayList<Song>> {
         return songRepository.getSongByArtist(name)
     }
+
     fun getHotSongs(): MutableLiveData<ArrayList<Song>> {
         return songRepository.getHotSongs()
     }

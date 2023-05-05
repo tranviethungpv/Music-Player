@@ -14,14 +14,14 @@ class ArtistRemote {
         val docRef = db.collection("artists")
         val artists: MutableList<Artist> = mutableListOf()
         docRef.get().addOnSuccessListener { result ->
-                for (snapshot in result) {
-                    val artist = snapshot.toObject(Artist::class.java)
-                    artists.add(artist)
-                }
-                artistLiveData.value = ArrayList(artists)
-            }.addOnFailureListener { exception ->
-                Log.d(ContentValues.TAG, "get failed with ", exception)
+            for (snapshot in result) {
+                val artist = snapshot.toObject(Artist::class.java)
+                artists.add(artist)
             }
+            artistLiveData.value = ArrayList(artists)
+        }.addOnFailureListener { exception ->
+            Log.d(ContentValues.TAG, "get failed with ", exception)
+        }
 
         return artistLiveData
     }

@@ -26,8 +26,8 @@
             android:id="@+id/information"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Innormation"
-            android:textSize="@dimen/text_size_small"
+            android:text="@string/information"
+            android:textSize="15sp"
             android:textStyle="normal" />
     </LinearLayout>
 
