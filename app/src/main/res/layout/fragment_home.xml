@@ -24,6 +24,7 @@
             android:id="@+id/edt_search_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
             android:background="@drawable/bg_white_shape_border_red_corner_8"
             android:hint="@string/hint_search_name"
             android:imeOptions="actionSearch"

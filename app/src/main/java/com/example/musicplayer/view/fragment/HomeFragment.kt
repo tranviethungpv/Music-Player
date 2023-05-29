@@ -1,10 +1,13 @@
 package com.example.musicplayer.view.fragment
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ViewFlipper
@@ -35,14 +38,13 @@ class HomeFragment : Fragment() {
     private lateinit var layoutSearch: RecyclerView
     private lateinit var viewFlipper: ViewFlipper
     private lateinit var songListSearch: SongSearchAdapter
-
+    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater, container, false)
         renderListSong()
-
+        recyclerViewListSong.requestFocus()
         hint = fragmentHomeBinding.edtSearchName
         imgSearch = fragmentHomeBinding.imgSearch
         layoutSearch = fragmentHomeBinding.layoutSearch
@@ -54,7 +56,6 @@ class HomeFragment : Fragment() {
         actionViewFlipper()
 
         imgSearch.setOnClickListener {
-
             searchSongByHint(hint.text.toString())
         }
         fragmentHomeBinding.playall.setOnClickListener {
@@ -140,5 +141,6 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+        GlobalFunction.hideSoftKeyboard(requireActivity())
     }
 }

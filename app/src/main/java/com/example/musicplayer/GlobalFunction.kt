@@ -1,5 +1,6 @@
 package com.example.musicplayer
 
+import android.app.Activity
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -10,11 +11,13 @@ import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.os.Build
+import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import com.example.musicplayer.receiver.MusicReceiver
 import com.example.musicplayer.service.MusicService
 import java.text.Normalizer
 import java.util.regex.Pattern
+
 
 class GlobalFunction {
     companion object {
@@ -107,6 +110,16 @@ class GlobalFunction {
                 val currentSong = MusicService.currentListSong[currentPosition]
                 val shuffledPosition = MusicService.shuffleListSong.indexOf(currentSong)
                 MusicService.songPosition = shuffledPosition
+            }
+        }
+
+        fun hideSoftKeyboard(activity: Activity) {
+            try {
+                val inputMethodManager =
+                    activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(activity.currentFocus!!.windowToken, 0)
+            } catch (ex: NullPointerException) {
+                ex.printStackTrace()
             }
         }
     }
