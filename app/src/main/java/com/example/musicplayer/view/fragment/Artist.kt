@@ -47,7 +47,7 @@ class Artist : Fragment() {
     }
 
     fun showPlayList() {
-        replaceFragment(PlayListMusic())
+        replaceFragment(ArtistListSong())
     }
 
     private fun replaceFragment(fragment: Fragment?) {

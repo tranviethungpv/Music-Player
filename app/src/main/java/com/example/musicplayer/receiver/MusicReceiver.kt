@@ -10,6 +10,7 @@ import com.example.musicplayer.service.MusicService
 class MusicReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val action = intent.extras!!.getInt(Constant.MUSIC_ACTION)
+        GlobalFunction.processForShuffle()
         GlobalFunction.startMusicService(context, action, MusicService.songPosition)
     }
 }

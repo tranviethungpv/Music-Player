@@ -22,17 +22,54 @@ import com.example.musicplayer.GlobalFunction.Companion.getCircularBitmap
 import com.example.musicplayer.R
 import com.example.musicplayer.model.Song
 import com.example.musicplayer.view.activity.PlayMusicActivity
+import java.util.Random
 
 class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
     companion object {
         var isPlaying = false
-        var listSongPlaying = mutableListOf<Song>()
+        var currentListSong = mutableListOf<Song>()
+        var shuffleListSong = mutableListOf<Song>()
+        var originalListSong = mutableListOf<Song>()
         var songPosition = 0
         var mediaPlayer: MediaPlayer? = null
         var lengthSong = 0
         var songAction = -1
-        fun clearListSongPlaying() {
-            listSongPlaying.clear()
+        var isShuffle = false
+        var repeatMode = Constant.REPEAT_NONE
+
+        fun clearListSong() {
+            currentListSong.clear()
+            shuffleListSong.clear()
+            originalListSong.clear()
+        }
+
+        fun shuffleMusic(context: Context) {
+            if (!isShuffle) {
+                val currentSong = currentListSong[songPosition]
+                val random = Random()
+                val shuffledList = ArrayList(currentListSong)
+                for (i in shuffledList.size - 1 downTo 1) {
+                    val j = random.nextInt(i + 1)
+                    val temp = shuffledList[i]
+                    shuffledList[i] = shuffledList[j]
+                    shuffledList[j] = temp
+                }
+                shuffleListSong.clear()
+                shuffleListSong.addAll(shuffledList)
+                songPosition = shuffleListSong.indexOf(currentSong)
+
+                isShuffle = true
+                val intent = Intent(Constant.SHUFFLE_ACTION)
+                intent.putExtra(Constant.SHUFFLE_STATE, isShuffle)
+                LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
+            } else {
+                val currentSong = currentListSong[songPosition]
+                isShuffle = false
+                songPosition = originalListSong.indexOf(currentSong)
+                val intent = Intent(Constant.SHUFFLE_ACTION)
+                intent.putExtra(Constant.SHUFFLE_STATE, isShuffle)
+                LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
+            }
         }
     }
 
@@ -42,6 +79,11 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
 
     override fun onCreate() {
         super.onCreate()
+        currentListSong = if (!isShuffle) {
+            originalListSong
+        } else {
+            shuffleListSong
+        }
         if (mediaPlayer == null) {
             mediaPlayer = MediaPlayer()
         }
@@ -72,10 +114,31 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
     }
 
     override fun onCompletion(mp: MediaPlayer) {
-        songAction = Constant.NEXT
-        nextSong()
-        sendMusicNotification()
-        sendBroadcastChangeListener()
+        when (repeatMode) {
+            Constant.REPEAT_NONE -> {
+                isPlaying = false
+                pauseSong()
+                songAction = Constant.PAUSE
+                sendMusicNotification()
+                sendBroadcastChangeListener()
+            }
+
+            Constant.REPEAT_ALL -> {
+                songAction = Constant.NEXT
+                GlobalFunction.processForShuffle()
+                nextSong()
+                sendMusicNotification()
+                sendBroadcastChangeListener()
+            }
+
+            Constant.REPEAT_ONE -> {
+                mp.seekTo(0)
+                mp.start()
+                songAction = Constant.PLAY
+                sendMusicNotification()
+                sendBroadcastChangeListener()
+            }
+        }
     }
 
     override fun onPrepared(mp: MediaPlayer) {
@@ -119,7 +182,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
     }
 
     private fun playSong() {
-        val songUrl = listSongPlaying[songPosition].url
+        val songUrl = currentListSong[songPosition].url
         if (songUrl?.isNotEmpty() == true) {
             playMediaPlayer(songUrl)
             sendMusicNotification()
@@ -146,29 +209,45 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
     }
 
     private fun prevSong() {
-        if (listSongPlaying.size > 1) {
-            if (songPosition > 0) {
-                songPosition--
-            } else {
-                songPosition = listSongPlaying.size - 1
-            }
+        if (repeatMode == Constant.REPEAT_ONE) {
+            mediaPlayer?.seekTo(0)
+            mediaPlayer?.start()
+            songAction = Constant.PLAY
+            sendMusicNotification()
+            sendBroadcastChangeListener()
         } else {
-            songPosition = 0
+            if (currentListSong.size > 1) {
+                if (songPosition > 0) {
+                    songPosition--
+                } else {
+                    songPosition = currentListSong.size - 1
+                }
+            } else {
+                songPosition = 0
+            }
+            sendMusicNotification()
+            sendBroadcastChangeListener()
+            playSong()
         }
-        sendMusicNotification()
-        sendBroadcastChangeListener()
-        playSong()
     }
 
     private fun nextSong() {
-        if (listSongPlaying.size > 1 && songPosition < listSongPlaying.size - 1) {
-            songPosition++
+        if (repeatMode == Constant.REPEAT_ONE) {
+            mediaPlayer?.seekTo(0)
+            mediaPlayer?.start()
+            songAction = Constant.PLAY
+            sendMusicNotification()
+            sendBroadcastChangeListener()
         } else {
-            songPosition = 0
+            if (currentListSong.size > 1 && songPosition < currentListSong.size - 1) {
+                songPosition++
+            } else {
+                songPosition = 0
+            }
+            sendMusicNotification()
+            sendBroadcastChangeListener()
+            playSong()
         }
-        sendMusicNotification()
-        sendBroadcastChangeListener()
-        playSong()
     }
 
     private fun cancelNotification() {
@@ -185,7 +264,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
 
     @SuppressLint("RemoteViewLayout")
     private fun sendMusicNotification() {
-        val song = listSongPlaying[songPosition]
+        val song = currentListSong[songPosition]
 
         val pendingFlag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
@@ -197,19 +276,21 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
 
         val remoteViews =
             RemoteViews(applicationContext.packageName, R.layout.layout_push_notification_music)
-        remoteViews.setTextViewText(R.id.tv_song_name, song.title)
-        remoteViews.setTextViewText(R.id.tv_artist, song.artist)
-        // Load the image using Glide
-        try {
-            val bitmap: Bitmap =
-                Glide.with(applicationContext).asBitmap().load(song.image.toString())
-                    .submit(512, 512).get()
-            remoteViews.setImageViewBitmap(R.id.img_song, getCircularBitmap(bitmap))
-        } catch (e: java.lang.Exception) {
-            e.printStackTrace()
+        if (repeatMode != Constant.REPEAT_NONE) {
+            remoteViews.setTextViewText(R.id.tv_song_name, song.title)
+            remoteViews.setTextViewText(R.id.tv_artist, song.artist)
+            // Load the image using Glide
+            try {
+                val bitmap: Bitmap =
+                    Glide.with(applicationContext).asBitmap().load(song.image.toString())
+                        .submit(512, 512).get()
+                remoteViews.setImageViewBitmap(R.id.img_song, getCircularBitmap(bitmap))
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
         }
 
-        // Check if the notification channel exists (need in Android 8.0 and above)
+        // Check if the notification channel exists (needed in Android 8.0 and above)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationManagerCompat.from(this)
                 .getNotificationChannel("channel_music_player_id")
@@ -228,7 +309,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
             }
         }
 
-        // Set listener
+        // Set listeners
         remoteViews.setOnClickPendingIntent(
             R.id.img_previous, GlobalFunction.openMusicReceiver(this, Constant.PREVIOUS)
         )
@@ -258,7 +339,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
     }
 
     private fun sendBroadcastChangeListener() {
-        //implicit intent
+        // Implicit intent
         val intent = Intent(Constant.CHANGE_LISTENER)
         intent.putExtra(Constant.MUSIC_ACTION, songAction)
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)

@@ -1,5 +1,6 @@
 package com.example.musicplayer
 
+import android.app.Activity
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -10,11 +11,13 @@ import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.os.Build
+import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import com.example.musicplayer.receiver.MusicReceiver
 import com.example.musicplayer.service.MusicService
 import java.text.Normalizer
 import java.util.regex.Pattern
+
 
 class GlobalFunction {
     companion object {
@@ -92,6 +95,32 @@ class GlobalFunction {
             }
             if (right < left || bottom < top) return output // Empty bitmap
             return Bitmap.createBitmap(output, left, top, right - left + 1, bottom - top + 1)
+        }
+
+        fun processForShuffle() {
+            if (!MusicService.isShuffle) {
+                MusicService.currentListSong = ArrayList(MusicService.originalListSong)
+                val currentPosition = MusicService.songPosition
+                val currentSong = MusicService.currentListSong[currentPosition]
+                val shuffledPosition = MusicService.originalListSong.indexOf(currentSong)
+                MusicService.songPosition = shuffledPosition
+            } else {
+                MusicService.currentListSong = ArrayList(MusicService.shuffleListSong)
+                val currentPosition = MusicService.songPosition
+                val currentSong = MusicService.currentListSong[currentPosition]
+                val shuffledPosition = MusicService.shuffleListSong.indexOf(currentSong)
+                MusicService.songPosition = shuffledPosition
+            }
+        }
+
+        fun hideSoftKeyboard(activity: Activity) {
+            try {
+                val inputMethodManager =
+                    activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(activity.currentFocus!!.windowToken, 0)
+            } catch (ex: NullPointerException) {
+                ex.printStackTrace()
+            }
         }
     }
 }
