@@ -91,10 +91,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun showInfoSongToLayoutBottom() {
-        if (MusicService.listSongPlaying.isEmpty()) {
+        if (MusicService.currentListSong.isEmpty()) {
             return
         }
-        val currentSong: Song = MusicService.listSongPlaying[MusicService.songPosition]
+        val currentSong: Song = MusicService.currentListSong[MusicService.songPosition]
         mActivityMainBinding.layoutBottom.tvSongName.text = currentSong.title.toString()
         mActivityMainBinding.layoutBottom.tvArtist.text = currentSong.artist.toString()
         Glide.with(applicationContext).load(currentSong.image.toString())

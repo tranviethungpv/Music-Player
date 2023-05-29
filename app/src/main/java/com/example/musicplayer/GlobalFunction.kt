@@ -93,5 +93,21 @@ class GlobalFunction {
             if (right < left || bottom < top) return output // Empty bitmap
             return Bitmap.createBitmap(output, left, top, right - left + 1, bottom - top + 1)
         }
+
+        fun processForShuffle() {
+            if (!MusicService.isShuffle) {
+                MusicService.currentListSong = ArrayList(MusicService.originalListSong)
+                val currentPosition = MusicService.songPosition
+                val currentSong = MusicService.currentListSong[currentPosition]
+                val shuffledPosition = MusicService.originalListSong.indexOf(currentSong)
+                MusicService.songPosition = shuffledPosition
+            } else {
+                MusicService.currentListSong = ArrayList(MusicService.shuffleListSong)
+                val currentPosition = MusicService.songPosition
+                val currentSong = MusicService.currentListSong[currentPosition]
+                val shuffledPosition = MusicService.shuffleListSong.indexOf(currentSong)
+                MusicService.songPosition = shuffledPosition
+            }
+        }
     }
 }

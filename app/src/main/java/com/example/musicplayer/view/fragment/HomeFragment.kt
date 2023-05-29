@@ -60,8 +60,8 @@ class HomeFragment : Fragment() {
         fragmentHomeBinding.playall.setOnClickListener {
             songViewModel = ViewModelProvider(this)[SongViewModel::class.java]
             songViewModel.allSongs.observe(viewLifecycleOwner) {
-                MusicService.clearListSongPlaying()
-                MusicService.listSongPlaying.addAll(it)
+                MusicService.clearListSong()
+                MusicService.originalListSong.addAll(it)
                 MusicService.isPlaying = false
                 GlobalFunction.startMusicService(requireContext(), Constant.PLAY, 0)
                 GlobalFunction.startActivity(requireActivity(), PlayMusicActivity::class.java)
@@ -86,8 +86,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun playSong(song: Song) {
-        MusicService.listSongPlaying.clear()
-        MusicService.listSongPlaying.add(song)
+        MusicService.originalListSong.clear()
+        MusicService.originalListSong.add(song)
 
         val musicService = Intent(requireContext(), MusicService::class.java)
         musicService.putExtra(Constant.MUSIC_ACTION, Constant.PLAY)

@@ -11,5 +11,14 @@ class Constant {
         const val CANCEL_NOTIFICATION = 5
         const val SONG_POSITION = "songPosition"
         const val CHANGE_LISTENER = "change_listener"
+
+        //Repeat mode
+        const val REPEAT_NONE = 0
+        const val REPEAT_ALL = 1
+        const val REPEAT_ONE = 2
+
+        //Shuffle state
+        const val SHUFFLE_ACTION: String = "Shuffle_Action"
+        const val SHUFFLE_STATE: String = "Shuffle_State"
     }
 }
